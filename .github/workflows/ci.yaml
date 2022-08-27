@@ -1,0 +1,238 @@
+on: 
+  schedule:
+    - cron:  '30 5,17 * * *'
+  push:
+  pull_request:
+
+name: Continuous integration
+
+concurrency:
+  cancel-in-progress: true
+  group: CI
+
+env:
+  GIST_KEY: "ffc7577cb1032996417a2c97f8715009"
+
+jobs:
+  windows-ci:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        rust:
+          - stable
+          - beta
+          - nightly
+          - 1.56.1  # MSRV
+        os:
+          - windows
+        include:
+          - os: windows
+            logo: windows
+          - rust: 1.56.1
+            label: msrv
+          - rust: nightly
+            label: nightly
+          - rust: beta
+            label: beta
+          - rust: stable
+            label: stable
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+
+      - name: Create Awesome Badge - Success
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: success()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          label: Build
+          namedLogo: ${{matrix.logo}}
+          message: Succeeded
+          color: green
+
+      - name: Create Awesome Badge - Failure
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: failure()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          namedLogo: ${{matrix.logo}}
+          label: Build
+          message: Failed
+          isError: true
+  ubuntu-ci:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        rust:
+          - stable
+          - beta
+          - nightly
+          - 1.56.1  # MSRV
+        os:
+          - ubuntu
+        include:
+          - os: ubuntu
+            logo: ubuntu
+          - rust: 1.56.1
+            label: msrv
+          - rust: nightly
+            label: nightly
+          - rust: beta
+            label: beta
+          - rust: stable
+            label: stable
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+
+      - name: Create Awesome Badge - Success
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: success()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          label: Build
+          namedLogo: ${{matrix.logo}}
+          message: Succeeded
+          color: green
+
+      - name: Create Awesome Badge - Failure
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: failure()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          namedLogo: ${{matrix.logo}}
+          label: Build
+          message: Failed
+          isError: true
+  macos-ci:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        rust:
+          - stable
+          - beta
+          - nightly
+          - 1.56.1  # MSRV
+        os:
+          - macos
+        include:
+          - os: macos
+            logo: apple
+          - rust: 1.56.1
+            label: msrv
+          - rust: nightly
+            label: nightly
+          - rust: beta
+            label: beta
+          - rust: stable
+            label: stable
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+
+      - name: Create Awesome Badge - Success
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: success()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          label: Build
+          namedLogo: ${{matrix.logo}}
+          message: Succeeded
+          color: green
+
+      - name: Create Awesome Badge - Failure
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        if: failure()
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ env.GIST_KEY }}
+          filename: ${{matrix.os}}-${{matrix.label}}.json
+          namedLogo: ${{matrix.logo}}
+          label: Build
+          message: Failed
+          isError: true          
