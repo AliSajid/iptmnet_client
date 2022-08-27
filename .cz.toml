@@ -1,0 +1,9 @@
+[tool]
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.8.2"
+tag_format = "v$version"
+gpg_sign = true
+version_files = ["Cargo.toml"]
+update_changelog_on_bump = true
+changelog_incremental = true
