@@ -1,10 +1,10 @@
 
 # IPTMNet API Client
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/hellorltk)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/hellorltk)
-[![Continuous integration](https://github.com/AliSajid/hellorltk/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/AliSajid/hellorltk/actions/workflows/ci.yaml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/iptmnet_client)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/iptmnet_client)
+[![Continuous integration](https://github.com/AliSajid/hellorltk/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/AliSajid/iptmnet_client/actions/workflows/ci.yaml)
 
 This project aims to develop a small cross-platform command line interface (CLI) for the IPTMNet API. The primary purpose of this is to be able to search the IPTMNet API for a given query and return the results in a format that is easy to read and understand. Additionally, this can be used to process a list of genes, kinases or phosphosites in parallel.
 
