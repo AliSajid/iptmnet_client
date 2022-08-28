@@ -1,4 +1,4 @@
-on: 
+on:
   schedule:
     - cron:  '30 5,17 * * *'
   push:
@@ -15,7 +15,7 @@ concurrency:
   group: CI
 
 env:
-  GIST_KEY: "ffc7577cb1032996417a2c97f8715009"
+  GIST_KEY: "ffc7577cb1032996417a2c97f8715009" # pragma: allowlist secret
 
 jobs:
   windows-ci:
@@ -239,4 +239,4 @@ jobs:
           namedLogo: ${{matrix.logo}}
           label: Build
           message: Failed
-          isError: true          
+          isError: true
