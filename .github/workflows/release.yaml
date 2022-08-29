@@ -15,20 +15,9 @@ jobs:
     release:
         name: Semantic Release
         runs-on: ubuntu-latest
-        strategy:
-          fail-fast: false
-          matrix:
-            include:
-              - target: x86_64-pc-windows-gnu
-                archive: zip
-                platform: windows_x86_64
-              - target: x86_64-unknown-linux-musl
-                archive: tar.gz tar.bz2 tar.xz
-                platform: linux_x86_64
-              - target: x86_64-apple-darwin
-                archive: zip
-                platform: macos_x86_64
-
+        outputs:
+          release_version: ${{steps.semantic.outputs.new_release_version}}
+          new_release: ${{steps.semantic.outputs.new_release_published}}
         steps:
           - name: Checkout
             uses: actions/checkout@v2
@@ -62,14 +51,46 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 CARGO_REGISTRY_TOKEN: ${{ secrets.SEMREL_CRATES_IO }}
 
+    upload_binaries:
+        name: Upload Binaries
+        runs-on: ubuntu-latest
+        needs: release
+        if: release.outputs.new_release == 'true'
+        env:
+          new_release_version: ${{release.outputs.release_version}}
+        strategy:
+          fail-fast: false
+          matrix:
+            include:
+              - target: x86_64-pc-windows-gnu
+                archive: zip
+                platform: windows_x86_64
+              - target: x86_64-unknown-linux-musl
+                archive: tar.gz tar.bz2 tar.xz
+                platform: linux_x86_64
+              - target: x86_64-apple-darwin
+                archive: zip
+                platform: macos_x86_64
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+            with:
+                fetch-depth: 0
+                persist-credentials: false
+          - name: Install Rust Stable
+            uses: actions-rs/toolchain@v1
+            with:
+                profile: minimal
+                toolchain: stable
+                override: true
+
           - name: Compile and release
             uses: rust-build/rust-build.action@v1.3.2
-            if: steps.semantic.outputs.new_release_published == 'true'
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             with:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              ARCHIVE_NAME: IPTMNet-CLI-${{ steps.semantic.outputs.new_release_version }}-${{matrix.platform}}
+              ARCHIVE_NAME: IPTMNet-CLI-${{ env.new_release_version }}-${{matrix.platform}}
               EXTRA_FILES: "README.md LICENSE"
