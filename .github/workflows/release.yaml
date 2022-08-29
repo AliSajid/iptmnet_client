@@ -1,9 +1,15 @@
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+      - alpha
+      - beta
 
 
 name: Release
+
+env:
+  RUST_BACKTRACE: 1
 
 jobs:
     release:
@@ -64,5 +70,5 @@ jobs:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              ARCHIVE_NAME: IPTMNet-CLI-${{ github.event.release.tag_name }}-${{matrix.platform}}
+              ARCHIVE_NAME: IPTMNet-CLI-${{ steps.semantic.new_release_version }}-${{matrix.platform}}
               EXTRA_FILES: "README.md LICENSE"
