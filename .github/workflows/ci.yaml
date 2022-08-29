@@ -1,3 +1,5 @@
+name: Continuous integration
+
 on:
   schedule:
     - cron:  '30 5,17 * * *'
@@ -8,8 +10,8 @@ on:
   pull_request:
     branches:
       - 'main'
+  workflow_dispatch:
 
-name: Continuous integration
 
 concurrency:
   group: CI
