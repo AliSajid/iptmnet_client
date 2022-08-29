@@ -62,7 +62,7 @@ jobs:
         needs: release
         if: release.outputs.new_release == 'true'
         env:
-          new_release_version: ${{release.outputs.release_version}}
+          new_release_version: ${{jobs.release.outputs.release_version}}
         strategy:
           fail-fast: false
           matrix:
