@@ -27,13 +27,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{env.MSRV}}  # MSRV
+          - ${{ env.MSRV }}  # MSRV
         os:
           - windows
         include:
           - os: windows
             logo: windows
-          - rust: ${{env.MSRV}}
+          - rust: ${{ env.MSRV }}
             label: msrv
           - rust: nightly
             label: nightly
@@ -109,13 +109,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{env.MSRV}}  # MSRV
+          - ${{ env.MSRV }}  # MSRV
         os:
           - ubuntu
         include:
           - os: ubuntu
             logo: ubuntu
-          - rust: ${{env.MSRV}}
+          - rust: ${{ env.MSRV }}
             label: msrv
           - rust: nightly
             label: nightly
@@ -191,13 +191,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{env.MSRV}}  # MSRV
+          - ${{ env.MSRV }}  # MSRV
         os:
           - macos
         include:
           - os: macos
             logo: apple
-          - rust: ${{env.MSRV}}
+          - rust: ${{ env.MSRV }}
             label: msrv
           - rust: nightly
             label: nightly
