@@ -13,16 +13,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+mod cli;
+use clap::Parser;
+use cli::*;
+mod helpers;
+
 #[tokio::main]
-async fn main() -> reqwest::Result<()> {
-    let baseurl = String::from("https://research.bioinformatics.udel.edu/iptmnet/api");
-    let endpoint = String::from("/stats");
+async fn main() {
+    let args = Cli::parse();
 
-    let url = format!("{}{}", baseurl, endpoint);
-
-    println!("URL: {}", url);
-
-    let response = reqwest::get(&url).await?;
-    println!("{:?}", response);
-    Ok(())
+    println!("Query: {}", args.search);
+    println!("Item Type: {}", args.item_type);
+    match args.ptm_type {
+        Some(ptm_type) => println!("PTM Type: {}", ptm_type),
+        None => println!("PTM Type: None"),
+    }
 }
