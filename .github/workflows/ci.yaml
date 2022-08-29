@@ -16,6 +16,7 @@ concurrency:
 
 env:
   GIST_KEY: "ffc7577cb1032996417a2c97f8715009" # pragma: allowlist secret
+  RUST_BACKTRACE: 1
 
 jobs:
   windows-ci:
