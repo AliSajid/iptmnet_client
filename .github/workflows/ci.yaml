@@ -16,7 +16,6 @@ concurrency:
 
 env:
   GIST_KEY: "ffc7577cb1032996417a2c97f8715009" # pragma: allowlist secret
-  MSRV: 1.57.0
 
 jobs:
   windows-ci:
@@ -27,13 +26,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{ env.MSRV }}  # MSRV
+          - 1.57.0  # MSRV
         os:
           - windows
         include:
           - os: windows
             logo: windows
-          - rust: ${{ env.MSRV }}
+          - rust: 1.57.0
             label: msrv
           - rust: nightly
             label: nightly
@@ -109,13 +108,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{ env.MSRV }}  # MSRV
+          - 1.57.0  # MSRV
         os:
           - ubuntu
         include:
           - os: ubuntu
             logo: ubuntu
-          - rust: ${{ env.MSRV }}
+          - rust: 1.57.0
             label: msrv
           - rust: nightly
             label: nightly
@@ -191,13 +190,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - ${{ env.MSRV }}  # MSRV
+          - 1.57.0  # MSRV
         os:
           - macos
         include:
           - os: macos
             logo: apple
-          - rust: ${{ env.MSRV }}
+          - rust: 1.57.0
             label: msrv
           - rust: nightly
             label: nightly
