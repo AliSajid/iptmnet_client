@@ -29,4 +29,6 @@ async fn main() {
         Some(ptm_type) => println!("PTM Type: {}", ptm_type),
         None => println!("PTM Type: None"),
     }
+
+    println!("Access URL: https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}", args.search, args.item_type)
 }
