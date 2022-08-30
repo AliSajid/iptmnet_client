@@ -42,7 +42,7 @@ jobs:
                 args: --release
 
           - name: Install Semantic Release Rust
-            run: cargo install semantic-release-rust --version ${{ env.SEMREL_RUST_VERSION}}
+            run: cargo install semantic-release-rust --version ${{ env.SEMREL_RUST_VERSION }}
 
           - name: Semantic Release
             uses: cycjimmy/semantic-release-action@v2
