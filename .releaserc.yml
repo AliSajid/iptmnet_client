@@ -14,6 +14,7 @@ plugins:
     - '@semantic-release/github'
     - - '@semantic-release/exec'
       - verifyConditionsCmd: "~/.cargo/bin/semantic-release-rust verify-conditions"
+        generateNotes: "cz bump --files-only"
         prepareCmd: "~/.cargo/bin/semantic-release-rust prepare ${nextRelease.version}"
         publishCmd: "~/.cargo/bin/semantic-release-rust publish"
     - - '@semantic-release/git'
