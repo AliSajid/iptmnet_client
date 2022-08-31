@@ -15,8 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use std::fmt;
+use std::fmt::Display;
 
 use clap::ValueEnum;
+use urlencoding::encode;
+
+pub trait UrlEncode: Display {
+    fn url_encode(&self) -> String {
+        let target = format!("{}", &self);
+        encode(&target).into_owned()
+    }
+}
 
 #[allow(clippy::upper_case_acronyms)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
@@ -27,6 +36,8 @@ pub enum ItemType {
     ProteinGeneName,
     PMID,
 }
+
+impl UrlEncode for ItemType {}
 
 impl fmt::Display for ItemType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -62,12 +73,16 @@ impl fmt::Display for PtmType {
     }
 }
 
+impl UrlEncode for PtmType {}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum Role {
     Enzyme,
     Substrate,
     Both,
 }
+
+impl UrlEncode for Role {}
 
 impl fmt::Display for Role {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

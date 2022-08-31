@@ -18,6 +18,7 @@ mod cli;
 use clap::Parser;
 use cli::*;
 mod helpers;
+use helpers::UrlEncode;
 
 #[tokio::main]
 async fn main() {
@@ -31,5 +32,6 @@ async fn main() {
         None => println!("PTM Type: None"),
     }
 
-    println!("Access URL: https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}&role={}", args.search, args.item_type, args.role)
+    let url = format!("Access URL: https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}&role={}", args.search, args.item_type.url_encode(), args.role.url_encode());
+    println!("{}", url);
 }
