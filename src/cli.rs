@@ -17,6 +17,7 @@
 use crate::helpers::PtmType;
 
 use crate::helpers::ItemType;
+use crate::helpers::Role;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
@@ -67,4 +68,17 @@ pub struct Cli {
     /// 10. ubiquitination
     #[clap(short, long, value_parser, value_name = "PTM_TYPE", arg_enum)]
     pub ptm_type: Option<PtmType>,
+
+    /// The role for the search term
+    ///
+    /// This argument allows you subset the search results based on the role it plays.
+    /// A role can be as Enzyme, Substrate, or Enzyme or Substrate both
+    /// The default is to include use both.
+    ///
+    /// Possible values include:
+    /// 1. enzyme
+    /// 2. substrate
+    /// 3. both
+    #[clap(short, long, value_parser, value_name = "ROLE", arg_enum)]
+    pub role: Role,
 }

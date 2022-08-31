@@ -19,7 +19,7 @@ use std::fmt;
 use clap::ValueEnum;
 
 #[allow(clippy::upper_case_acronyms)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum ItemType {
     All,
     #[clap(name = "uniprot-id")]
@@ -34,7 +34,7 @@ impl fmt::Display for ItemType {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum PtmType {
     Acetylation,
     CGlycosylation,
@@ -57,6 +57,22 @@ impl fmt::Display for PtmType {
             PtmType::SGlycosylation => write!(f, "S-Glycosylation"),
             PtmType::OGlycosylation => write!(f, "O-Glycosylation"),
             PtmType::SNitrosylation => write!(f, "S-Nitrosylation"),
+            _ => write!(f, "{:?}", self),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+pub enum Role {
+    Enzyme,
+    Substrate,
+    Both,
+}
+
+impl fmt::Display for Role {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Role::Both => write!(f, "Enzyme or Substrate"),
             _ => write!(f, "{:?}", self),
         }
     }
