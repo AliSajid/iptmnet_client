@@ -20,12 +20,18 @@ jobs:
         outputs:
           release_version: ${{steps.semantic.outputs.new_release_version}}
           new_release: ${{steps.semantic.outputs.new_release_published}}
+          github_event_data: ${{ steps.payload.outputs.github_event_data }}
         steps:
           - name: Checkout
             uses: actions/checkout@v2
             with:
                 fetch-depth: 0
                 persist-credentials: false
+
+          - name: Save Event Payload
+            id: payload
+            run: |
+              echo "::set-output name={github_event_data}::$(cat $GITHUB_EVENT_PATH | base64)"
 
           - name: Install Python
             uses: actions/setup-python@v4
@@ -71,6 +77,7 @@ jobs:
         if: needs.release.outputs.new_release == 'true'
         env:
           new_release_version: ${{needs.release.outputs.release_version}}
+          github_event_data: ${{needs.release.outputs.github_event_data}}
         strategy:
           fail-fast: false
           matrix:
@@ -96,6 +103,11 @@ jobs:
                 profile: minimal
                 toolchain: stable
                 override: true
+
+          - name: Create the event file
+            run: |
+              cat $github_event_data | base64 -d > /tmp/github_event.json
+              echo "GITHUB_EVENT_PATH=/tmp/github_event.json" >> $GITHUB_ENV
 
           - name: Compile and release
             uses: rust-build/rust-build.action@v1.3.2
