@@ -106,7 +106,7 @@ jobs:
 
           - name: Create the event file
             run: |
-              cat $github_event_data | base64 -d > /tmp/github_event.json
+              echo $github_event_data | base64 -d > /tmp/github_event.json
               echo "GITHUB_EVENT_PATH=/tmp/github_event.json" >> $GITHUB_ENV
 
           - name: Compile and release
