@@ -15,8 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 pub fn get_data() -> Result<(), std::io::Error> {
-    post_data();
     Ok(())
 }
-
-fn post_data() {}
