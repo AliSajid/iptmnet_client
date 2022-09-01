@@ -31,7 +31,7 @@ jobs:
           - name: Save Event Payload
             id: payload
             run: |
-              echo "::set-output name={github_event_data}::$(cat $GITHUB_EVENT_PATH | base64)"
+              echo "::set-output name=github_event_data::$(cat $GITHUB_EVENT_PATH | base64)"
 
           - name: Install Python
             uses: actions/setup-python@v4
