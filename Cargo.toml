@@ -11,6 +11,10 @@ authors = ["Ali Sajid Imami <Ali.Sajid.Imami@gmail.com>"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+name = "iptmlib"
+path = "src/iptmlib/lib.rs"
+crate-type = ["lib"]
 
 [[bin]]
 name = "iptmnet"
