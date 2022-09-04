@@ -20,9 +20,9 @@ use serde::Deserialize;
 
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
 pub struct Organism {
-    species: String,
-    taxon_code: u32,
-    common_name: String,
+    pub species: String,
+    pub taxon_code: u32,
+    pub common_name: String,
 }
 
 impl Display for Organism {
@@ -56,5 +56,12 @@ mod test {
         assert_eq!(org.species, "Homo Sapiens");
         assert_eq!(org.taxon_code, 9606);
         assert_eq!(org.common_name, "Human")
+    }
+
+    #[test]
+    fn test_print() {
+        let org = Organism::new(String::from("Homo Sapiens"), 9606, String::from("Human"));
+
+        assert_eq!(format!("{}", org), "Human - 9606 (Homo Sapiens)")
     }
 }
