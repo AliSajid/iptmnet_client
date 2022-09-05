@@ -46,6 +46,7 @@ impl Display for Protein {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 impl Protein {
     pub fn new(
         gene_name: String,
