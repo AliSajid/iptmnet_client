@@ -14,6 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-pub fn get_data() -> Result<(), std::io::Error> {
-    Ok(())
+mod models;
+use models::protein::Protein;
+
+pub enum IPTMResult {
+    Error(serde_json::Error),
+    ProteinResults {
+        num_results: usize,
+        results: Vec<Protein>,
+    },
+}
+
+pub fn get_search_data(json_data: &str) -> IPTMResult {
+    let deserialized: Result<Vec<Protein>, serde_json::Error> = serde_json::from_str(json_data);
+
+    match deserialized {
+        Ok(json) => IPTMResult::ProteinResults {
+            num_results: json.len(),
+            results: json,
+        },
+        Err(error) => IPTMResult::Error(error),
+    }
 }
