@@ -21,21 +21,22 @@ use serde::Deserialize;
 use crate::models::organism::Organism;
 
 type Synonym = String;
+
 #[derive(Clone, Eq, PartialEq, Debug, Deserialize)]
 pub struct Protein {
-    gene_name: String,
-    substrate_num: u32,
-    organism: Organism,
-    substrate_role: bool,
-    synonyms: Vec<Synonym>,
-    isoforms: u32,
-    sites: u32,
+    enzyme_num: u32,
     enzyme_role: bool,
-    ptm_dependent_ppi_role: bool,
+    gene_name: String,
+    iptmid: String,
+    isoforms: u32,
+    organism: Organism,
     protein_name: String,
     ptm_dependent_ppi_num: u32,
-    iptmid: String,
-    enzyme_num: u32,
+    ptm_dependent_ppi_role: bool,
+    sites: u32,
+    substrate_num: u32,
+    substrate_role: bool,
+    synonyms: Vec<Synonym>,
     uniprot_ac: String,
 }
 
@@ -99,13 +100,12 @@ mod tests {
     #[test]
     fn test_protein_instantiation() {
         let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
-        let syns = ["PIP1", "WDR84"].map(String::from).to_vec();
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
             org,
             true,
-            syns,
+            ["PIP1", "WDR84"].map(String::from).to_vec(),
             0,
             18,
             false,
@@ -139,13 +139,12 @@ mod tests {
     #[test]
     fn test_protein_display() {
         let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
-        let syns = ["PIP1", "WDR84"].map(String::from).to_vec();
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
             org,
             true,
-            syns,
+            ["PIP1", "WDR84"].map(String::from).to_vec(),
             0,
             18,
             false,
@@ -164,13 +163,12 @@ mod tests {
 
     fn test_protein_getters() {
         let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
-        let syns = ["PIP1", "WDR84"].map(String::from).to_vec();
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
             org,
             true,
-            syns,
+            ["PIP1", "WDR84"].map(String::from).to_vec(),
             0,
             18,
             false,
