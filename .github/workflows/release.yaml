@@ -97,6 +97,7 @@ jobs:
             with:
                 fetch-depth: 0
                 persist-credentials: false
+
           - name: Install Rust Stable
             uses: actions-rs/toolchain@v1
             with:
@@ -108,6 +109,11 @@ jobs:
             run: |
               echo $github_event_data | base64 -d > /tmp/github_event.json
               echo "GITHUB_EVENT_PATH=/tmp/github_event.json" >> $GITHUB_ENV
+
+          - name: Install Python
+            uses: actions/setup-python@v4
+            with:
+              python-version: '3.10'
 
           - name: Compile and release
             uses: rust-build/rust-build.action@v1.3.2
