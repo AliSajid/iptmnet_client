@@ -123,6 +123,6 @@ jobs:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              PRE_BUILD: meta/build.sh
+              PRE_BUILD: "meta/build.sh"
               ARCHIVE_NAME: IPTMNet-CLI-${{ env.new_release_version }}-${{matrix.platform}}
               EXTRA_FILES: "README.md LICENSE"
