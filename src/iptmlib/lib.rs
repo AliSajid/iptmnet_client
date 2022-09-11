@@ -14,11 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-mod models;
+pub mod models;
 use models::protein::Protein;
 
+pub enum IPTMResultError {
+    DeserializingError(serde_json::Error),
+    APIRequestError(reqwest::Error),
+}
+
 pub enum IPTMResult {
-    Error(serde_json::Error),
+    Error(IPTMResultError),
     ProteinResults {
         num_results: usize,
         results: Vec<Protein>,
@@ -33,6 +38,6 @@ pub fn get_search_data(json_data: &str) -> IPTMResult {
             num_results: json.len(),
             results: json,
         },
-        Err(error) => IPTMResult::Error(error),
+        Err(error) => IPTMResult::Error(IPTMResultError::DeserializingError(error)),
     }
 }

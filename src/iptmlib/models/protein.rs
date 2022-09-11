@@ -27,7 +27,7 @@ pub struct Protein {
     enzyme_num: u32,
     enzyme_role: bool,
     gene_name: String,
-    iptmid: String,
+    iptm_id: String,
     isoforms: u32,
     organism: Organism,
     protein_name: String,
@@ -76,7 +76,7 @@ impl Protein {
             ptm_dependent_ppi_role,
             protein_name,
             ptm_dependent_ppi_num,
-            iptmid,
+            iptm_id: iptmid,
             enzyme_num,
             uniprot_ac,
         }
@@ -100,7 +100,11 @@ mod tests {
 
     #[test]
     fn test_protein_instantiation() {
-        let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
+        let org = Organism::new(
+            String::from("Homo sapiens"),
+            String::from("9606"),
+            String::from("Human"),
+        );
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
@@ -133,13 +137,17 @@ mod tests {
             "p21-activated protein kinase-interacting protein 1;"
         );
         assert_eq!(prot.ptm_dependent_ppi_num, 0);
-        assert_eq!(prot.iptmid, "Q9NWT1");
+        assert_eq!(prot.iptm_id, "Q9NWT1");
         assert_eq!(prot.enzyme_num, 0)
     }
 
     #[test]
     fn test_protein_display() {
-        let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
+        let org = Organism::new(
+            String::from("Homo sapiens"),
+            String::from("9606"),
+            String::from("Human"),
+        );
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
@@ -163,7 +171,11 @@ mod tests {
     #[test]
 
     fn test_protein_getters() {
-        let org = Organism::new(String::from("Homo sapiens"), 9606, String::from("Human"));
+        let org = Organism::new(
+            String::from("Homo sapiens"),
+            String::from("9606"),
+            String::from("Human"),
+        );
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,

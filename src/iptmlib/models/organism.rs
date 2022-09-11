@@ -16,11 +16,14 @@
 
 use std::fmt::{Display, Formatter, Result};
 
+use serde_aux::prelude::*;
+
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
 pub struct Organism {
     pub species: String,
+    #[serde(deserialize_with = "deserialize_number_from_string")]
     pub taxon_code: u32,
     pub common_name: String,
 }
@@ -36,10 +39,11 @@ impl Display for Organism {
 }
 
 impl Organism {
-    pub fn new(species: String, taxon_code: u32, common_name: String) -> Self {
+    pub fn new(species: String, taxon_code: String, common_name: String) -> Self {
+        let taxon_code_parsed: u32 = taxon_code.parse().unwrap();
         Organism {
             species,
-            taxon_code,
+            taxon_code: taxon_code_parsed,
             common_name,
         }
     }
@@ -51,7 +55,11 @@ mod test {
 
     #[test]
     fn test_organism_initialization() {
-        let org = Organism::new(String::from("Homo Sapiens"), 9606, String::from("Human"));
+        let org = Organism::new(
+            String::from("Homo Sapiens"),
+            String::from("9606"),
+            String::from("Human"),
+        );
 
         assert_eq!(org.species, "Homo Sapiens");
         assert_eq!(org.taxon_code, 9606);
@@ -60,7 +68,11 @@ mod test {
 
     #[test]
     fn test_print() {
-        let org = Organism::new(String::from("Homo Sapiens"), 9606, String::from("Human"));
+        let org = Organism::new(
+            String::from("Homo Sapiens"),
+            String::from("9606"),
+            String::from("Human"),
+        );
 
         assert_eq!(format!("{}", org), "Human - 9606 (Homo Sapiens)")
     }

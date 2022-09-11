@@ -15,13 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 mod cli;
+
 use clap::Parser;
 use cli::*;
 mod helpers;
 use helpers::UrlEncode;
+use iptmlib::models::protein::Protein;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), reqwest::Error> {
     let args = Cli::parse();
 
     println!("Query: {}", args.search);
@@ -32,6 +34,12 @@ async fn main() {
         None => println!("PTM Type: None"),
     }
 
-    let url = format!("Access URL: https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}&role={}", args.search, args.item_type.url_encode(), args.role.url_encode());
-    println!("{}", url);
+    let url = format!("https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}&role={}", args.search, args.item_type.url_encode(), args.role.url_encode());
+    println!("Access URL: {}", url);
+
+    let response = reqwest::get(url).await?.json::<Vec<Protein>>().await?;
+
+    println!("{:#?}", response);
+
+    Ok(())
 }
