@@ -40,7 +40,7 @@ jobs:
 
           - name: Create the event file
             run: |
-              cat $GITHUB_EVENT_PATH | jq -r '.release.tag_name' | xargs -I {} echo 'RELEASE_VERSION="{}"' >> $GITHUB_ENV
+              cat $GITHUB_EVENT_PATH | jq -r release.tag_name | xargs -I {} echo 'RELEASE_VERSION="{}"' >> $GITHUB_ENV
 
           - name: Compile and release
             uses: rust-build/rust-build.action@v1.3.2
