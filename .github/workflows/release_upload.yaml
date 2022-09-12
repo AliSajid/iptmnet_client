@@ -1,6 +1,5 @@
 on:
-  release:
-    types: [published]
+  - release
 
 
 name: Upload Release Artifacts
