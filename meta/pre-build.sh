@@ -9,17 +9,17 @@ info() {
   echo "::info::$*"
 }
 warn() {
-  echo "::warning file=entrypoint.sh::$*"
+  echo "::warning file=pre-build.sh::$*"
 }
 error() {
-  echo "::error file=entrypoint.sh::$*"
+  echo "::error file=pre-build.sh::$*"
 }
 
 info "Running pre-build script"
 info "This script modifies the json file at GITHUB_EVENT_PATH"
 
 
-pip install --upgrade pip
-pip install PyGithub
+#pip install --upgrade pip
+#pip install PyGithub
 
-python3 update_json.py
+#python3 update_json.py
