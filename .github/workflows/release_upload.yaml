@@ -51,5 +51,5 @@ jobs:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              ARCHIVE_NAME: IPTMNet-CLI-${{ env.RELEASE_VERSION }}-${{matrix.platform}}
+              ARCHIVE_NAME: IPTMNet-CLI${{ env.RELEASE_VERSION }}${{matrix.platform}}
               EXTRA_FILES: "README.md LICENSE"
