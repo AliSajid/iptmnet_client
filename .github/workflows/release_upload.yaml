@@ -1,0 +1,55 @@
+on:
+  release:
+    types: [published]
+
+
+name: Upload Release Artifacts
+
+env:
+  RUST_BACKTRACE: 1
+
+jobs:
+    upload_binaries:
+        name: Upload Binaries
+        runs-on: ubuntu-latest
+        strategy:
+          fail-fast: false
+          matrix:
+            include:
+              - target: x86_64-pc-windows-gnu
+                archive: zip
+                platform: windows_x86_64
+              - target: x86_64-unknown-linux-musl
+                archive: tar.gz tar.bz2 tar.xz
+                platform: linux_x86_64
+              - target: x86_64-apple-darwin
+                archive: zip
+                platform: macos_x86_64
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+            with:
+                fetch-depth: 0
+                persist-credentials: false
+
+          - name: Install Rust Stable
+            uses: actions-rs/toolchain@v1
+            with:
+                profile: minimal
+                toolchain: stable
+                override: true
+
+          - name: Create the event file
+            run: |
+              cat $GITHUB_EVENT_PATH | jq -r '.release.tag_name' | xargs -I {} echo 'RELEASE_VERSION="{}"' >> $GITHUB_ENV
+
+          - name: Compile and release
+            uses: rust-build/rust-build.action@v1.3.2
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+              MINIFY: true
+              RUSTTARGET: ${{ matrix.target }}
+              ARCHIVE_TYPES: ${{ matrix.archive }}
+              ARCHIVE_NAME: IPTMNet-CLI-${{ env.RELEASE_VERSION }}-${{matrix.platform}}
+              EXTRA_FILES: "README.md LICENSE"
