@@ -100,11 +100,7 @@ mod tests {
 
     #[test]
     fn test_protein_instantiation() {
-        let org = Organism::new(
-            String::from("Homo sapiens"),
-            String::from("9606"),
-            String::from("Human"),
-        );
+        let org = Organism::new("Homo sapiens", "9606", "Human");
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
@@ -143,11 +139,7 @@ mod tests {
 
     #[test]
     fn test_protein_display() {
-        let org = Organism::new(
-            String::from("Homo sapiens"),
-            String::from("9606"),
-            String::from("Human"),
-        );
+        let org = Organism::new("Homo sapiens", "9606", "Human");
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,
@@ -171,11 +163,7 @@ mod tests {
     #[test]
 
     fn test_protein_getters() {
-        let org = Organism::new(
-            String::from("Homo sapiens"),
-            String::from("9606"),
-            String::from("Human"),
-        );
+        let org = Organism::new("Homo sapiens", "9606", "Human");
         let prot = Protein::new(
             String::from("PAK1IP1"),
             0,

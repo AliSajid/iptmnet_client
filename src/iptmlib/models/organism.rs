@@ -20,11 +20,51 @@ use serde_aux::prelude::*;
 
 use serde::Deserialize;
 
+/// The Organism Struct
+///
+/// The `Organism` Struct encodes the representation of a given organism in the iptmnet
+/// database.
+///
+/// It contains the same information as the one available in the iPTMNet API
+///
+/// Example:
+///
+/// Bare initialization:
+///
+/// ```
+/// use iptmlib::models::organism::Organism;
+/// let organism = Organism {
+/// species: String::from("Homo sapiens"),
+/// taxon_code: 9606,
+/// common_name: String::from("Human")
+/// };
+/// ```
+///
+/// Using the constructor method:
+///```
+/// use iptmlib::models::organism::Organism;
+/// let organism_fun = Organism::new("Homo sapiens", "9606", "Human");
+/// ```
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
 pub struct Organism {
+    /// The Species of the organism.
+    ///
+    /// Example: "Homo sapiens"
     pub species: String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
+    /// The Taxon Code for the organism.
+    ///
+    /// This taxon code is the one that is assigned by InterPro/Uniprot.
+    /// The list can be viewed at <http://www.ebi.ac.uk/interpro/taxonomy/uniprot>
+    ///
+    /// Example: 9606 for Homo sapiens
     pub taxon_code: u32,
+
+    /// The common name of the organism, if it exists.
+    ///
+    /// This common name is pulled from the same InterPro/UniProt database.
+    ///
+    /// Example: Human
     pub common_name: String,
 }
 
@@ -39,12 +79,12 @@ impl Display for Organism {
 }
 
 impl Organism {
-    pub fn new(species: String, taxon_code: String, common_name: String) -> Self {
+    pub fn new(species: &str, taxon_code: &str, common_name: &str) -> Self {
         let taxon_code_parsed: u32 = taxon_code.parse().unwrap();
         Organism {
-            species,
+            species: species.to_string(),
             taxon_code: taxon_code_parsed,
-            common_name,
+            common_name: common_name.to_string(),
         }
     }
 }
@@ -55,11 +95,7 @@ mod test {
 
     #[test]
     fn test_organism_initialization() {
-        let org = Organism::new(
-            String::from("Homo Sapiens"),
-            String::from("9606"),
-            String::from("Human"),
-        );
+        let org = Organism::new("Homo Sapiens", "9606", "Human");
 
         assert_eq!(org.species, "Homo Sapiens");
         assert_eq!(org.taxon_code, 9606);
@@ -68,11 +104,7 @@ mod test {
 
     #[test]
     fn test_print() {
-        let org = Organism::new(
-            String::from("Homo Sapiens"),
-            String::from("9606"),
-            String::from("Human"),
-        );
+        let org = Organism::new("Homo Sapiens", "9606", "Human");
 
         assert_eq!(format!("{}", org), "Human - 9606 (Homo Sapiens)")
     }
