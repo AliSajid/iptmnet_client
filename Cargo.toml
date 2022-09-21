@@ -21,6 +21,16 @@ crate-type = ["lib"]
 name = "iptmnet"
 path = "src/iptmnet/main.rs"
 
+[profile.dev]
+opt-level = 1
+debug = true
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1
+
 
 [dependencies]
 clap = { version = "3.2.17", features = ["clap_derive", "derive"] }
