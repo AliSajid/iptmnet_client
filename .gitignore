@@ -81,3 +81,6 @@ Cargo.lock
 *.msm
 *.msp
 *.txz
+
+# Cargo watch trigger file (https://crates.io/crates/cargo-watch)
+.trigger
