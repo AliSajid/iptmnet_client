@@ -4,8 +4,8 @@
 
 tasks:
   - before: >
-      [[ ! -z $GNUPG_KEY  ]] &&
-      gpg --verbose --batch --import <(echo $GNUPG_KEY|base64 -d) &&
+      [[ ! -z $GPG_KEY  ]] &&
+      gpg --verbose --batch --import <(echo $GPG_KEY|base64 -d) &&
       echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
   - init: cargo build
     command: cargo watch -x run -- --search PAK1 --role both
