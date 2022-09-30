@@ -7,5 +7,7 @@ tasks:
       [[ ! -z $GPG_KEY  ]] &&
       gpg --verbose --batch --import <(echo $GPG_KEY|base64 -d) &&
       echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
+  - init: cargo check
+    command: cargo watch -d 2 -w src -w Cargo.toml -x check -s 'touch .trigger'
   - init: cargo build
-    command: cargo watch -x run -- --search PAK1 --role both
+    command: cargo watch -d 2 --no-gitignore -w .trigger -x  'run -- --search PAK1 --role both'
