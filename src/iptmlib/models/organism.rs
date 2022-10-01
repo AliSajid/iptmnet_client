@@ -76,6 +76,18 @@ impl Organism {
             common_name: common_name.to_string(),
         }
     }
+
+    pub fn common_name(&self) -> &str {
+        self.common_name.as_ref()
+    }
+
+    pub fn taxon_code(&self) -> u32 {
+        self.taxon_code
+    }
+
+    pub fn species(&self) -> &str {
+        self.species.as_ref()
+    }
 }
 
 #[cfg(test)]
