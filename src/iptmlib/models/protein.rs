@@ -22,7 +22,7 @@ use crate::models::organism::Organism;
 
 type Synonym = String;
 
-/// #The Protein Struct
+/// # The Protein Struct
 ///
 /// This struct encodes the summary information about a protein.
 /// This contains the same information as the Protein construct returned from the `/seacrch` endpoint
