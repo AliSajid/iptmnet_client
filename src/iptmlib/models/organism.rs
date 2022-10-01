@@ -20,27 +20,16 @@ use serde_aux::prelude::*;
 
 use serde::Deserialize;
 
-/// The Organism Struct
+/// # The Organism Struct
 ///
 /// The `Organism` Struct encodes the representation of a given organism in the iptmnet
 /// database.
 ///
 /// It contains the same information as the one available in the iPTMNet API
 ///
-/// Example:
+/// ## Example:
 ///
-/// Bare initialization:
-///
-/// ```
-/// use iptmlib::models::organism::Organism;
-/// let organism = Organism {
-/// species: String::from("Homo sapiens"),
-/// taxon_code: 9606,
-/// common_name: String::from("Human")
-/// };
-/// ```
-///
-/// Using the constructor method:
+/// ### Using the constructor method:
 ///```
 /// use iptmlib::models::organism::Organism;
 /// let organism_fun = Organism::new("Homo sapiens", "9606", "Human");
