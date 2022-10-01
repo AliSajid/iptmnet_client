@@ -109,4 +109,13 @@ mod test {
 
         assert_eq!(format!("{}", org), "Human - 9606 (Homo Sapiens)")
     }
+
+    #[test]
+    fn test_getters() {
+        let org = Organism::new("Homo Sapiens", "9606", "Human");
+
+        assert_eq!(org.species(), "Homo Sapiens");
+        assert_eq!(org.taxon_code(), 9606);
+        assert_eq!(org.common_name(), "Human")
+    }
 }
