@@ -3,11 +3,6 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - name: Import GPG Key
-    init: >
-      [[ ! -z $GPG_KEY  ]] &&
-      gpg --verbose --batch --import <(echo $GPG_KEY|base64 -d) &&
-      echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
   - name: Cargo Check
     init: cargo check
   - name: Run Cargo Check
