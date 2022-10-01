@@ -22,6 +22,40 @@ use crate::models::organism::Organism;
 
 type Synonym = String;
 
+/// #The Protein Struct
+///
+/// This struct encodes the summary information about a protein.
+/// This contains the same information as the Protein construct returned from the `/seacrch` endpoint
+/// from the iPTMNet API.
+///
+/// ## Examples
+///
+/// ### Using the constructor
+///
+/// ```
+/// use iptmlib::models::organism::Organism;
+/// use iptmlib::models::protein::Protein;
+///
+/// let organism = Organism::new("Homo sapiens", "9606", "Human");
+///
+///  let prot = Protein::new(
+///  String::from("PAK1IP1"),
+///  0,
+///  organism,
+///  true,
+///  ["PIP1", "WDR84"].map(String::from).to_vec(),
+///  0,
+///  18,
+///  false,
+///  false,
+///  String::from("p21-activated protein kinase-interacting protein 1;"),
+///  0,
+///  String::from("Q9NWT1"),
+///  0,
+///  String::from("PK1IP_HUMAN"),
+///  );
+///
+/// ```
 #[derive(Clone, Eq, PartialEq, Debug, Deserialize)]
 pub struct Protein {
     enzyme_num: u32,
