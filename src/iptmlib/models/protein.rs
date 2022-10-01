@@ -76,7 +76,7 @@ pub struct Protein {
 
 impl Display for Protein {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} - {}", self.gene_name, self.organism.common_name)
+        write!(f, "{} - {}", self.gene_name, self.organism.common_name())
     }
 }
 
@@ -154,7 +154,7 @@ mod tests {
 
         assert_eq!(prot.gene_name, "PAK1IP1");
         assert_eq!(prot.substrate_num, 0);
-        assert_eq!(prot.organism.common_name, "Human");
+        assert_eq!(prot.organism.common_name(), "Human");
         assert!(prot.substrate_role);
         assert_eq!(prot.synonyms[0], "PIP1");
         assert_eq!(prot.synonyms[1], "WDR84");

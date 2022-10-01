@@ -39,7 +39,7 @@ pub struct Organism {
     /// The Species of the organism.
     ///
     /// Example: "Homo sapiens"
-    pub species: String,
+    species: String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
     /// The Taxon Code for the organism.
     ///
@@ -47,14 +47,14 @@ pub struct Organism {
     /// The list can be viewed at <http://www.ebi.ac.uk/interpro/taxonomy/uniprot>
     ///
     /// Example: 9606 for Homo sapiens
-    pub taxon_code: u32,
+    taxon_code: u32,
 
     /// The common name of the organism, if it exists.
     ///
     /// This common name is pulled from the same InterPro/UniProt database.
     ///
     /// Example: Human
-    pub common_name: String,
+    common_name: String,
 }
 
 impl Display for Organism {
