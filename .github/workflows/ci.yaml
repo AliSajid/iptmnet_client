@@ -80,6 +80,12 @@ jobs:
           command: clippy
           args: -- -D warnings
 
+      - name: Random Wait
+        uses: AliSajid/random-wait-action@v1
+        with:
+          minimum: 5
+          maximum: 20
+
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0
         if: success()
@@ -162,6 +168,12 @@ jobs:
           command: clippy
           args: -- -D warnings
 
+      - name: Random Wait
+        uses: AliSajid/random-wait-action@v1
+        with:
+          minimum: 5
+          maximum: 20
+
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0
         if: success()
@@ -243,6 +255,12 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+      
+      - name: Random Wait
+        uses: AliSajid/random-wait-action@v1
+        with:
+          minimum: 5
+          maximum: 20
 
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0
