@@ -81,7 +81,7 @@ jobs:
           args: -- -D warnings
 
       - name: Random Wait
-        uses: AliSajid/random-wait-action@v1
+        uses: AliSajid/random-wait-action@v1.1.0
         with:
           minimum: 5
           maximum: 20
@@ -169,7 +169,7 @@ jobs:
           args: -- -D warnings
 
       - name: Random Wait
-        uses: AliSajid/random-wait-action@v1
+        uses: AliSajid/random-wait-action@v1.1.0
         with:
           minimum: 5
           maximum: 20
@@ -255,9 +255,9 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
-      
+
       - name: Random Wait
-        uses: AliSajid/random-wait-action@v1
+        uses: AliSajid/random-wait-action@v1.1.0
         with:
           minimum: 5
           maximum: 20
