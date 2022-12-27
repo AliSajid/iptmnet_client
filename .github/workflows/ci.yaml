@@ -289,3 +289,17 @@ jobs:
           label: Build
           message: Failed
           isError: true
+
+  semantic-release:
+    needs: [macos-ci, windows-ci, ubuntu-ci]
+    uses: ./.github/workflows/release.yaml
+    secrets: inherit # pragma: allowlist secret
+
+  upload-release-artifacts:
+    needs: [semantic-release]
+    if: needs.semantic-release.outputs.new_release_published == 'true'
+    uses: ./.github/workflows/release_upload.yaml
+    secrets: inherit # pragma: allowlist secret
+    with:
+      new_version: ${{ needs.semantic-release.outputs.new_version }}
+      new_release_published: ${{ needs.semantic-release.outputs.new_release_published }}
