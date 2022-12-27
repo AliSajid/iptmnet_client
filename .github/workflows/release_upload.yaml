@@ -1,7 +1,14 @@
 on:
-  release:
-    types: [published]
-
+  workflow_call:
+    inputs:
+      new_version:
+        description: 'The new version to release'
+        required: true
+        type: string
+      new_release_published:
+        description: 'Whether a new release was published'
+        required: true
+        type: string
 
 name: Upload Release Artifacts
 

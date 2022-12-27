@@ -19,6 +19,8 @@ concurrency:
 env:
   GIST_KEY: "ffc7577cb1032996417a2c97f8715009" # pragma: allowlist secret
   RUST_BACKTRACE: 1
+  MINIMUM_WAIT: 3
+  MAXIMUM_WAIT: 10
 
 jobs:
   windows-ci:
@@ -83,8 +85,8 @@ jobs:
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
         with:
-          minimum: 5
-          maximum: 20
+          minimum: ${{ env.MINIMUM_WAIT }}
+          maximum: ${{ env.MAXIMUM_WAIT }}
 
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0
@@ -109,6 +111,7 @@ jobs:
           label: Build
           message: Failed
           isError: true
+
   ubuntu-ci:
     runs-on: ${{ matrix.os }}-latest
     strategy:
@@ -171,8 +174,8 @@ jobs:
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
         with:
-          minimum: 5
-          maximum: 20
+          minimum: ${{ env.MINIMUM_WAIT }}
+          maximum: ${{ env.MAXIMUM_WAIT }}
 
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0
@@ -197,6 +200,7 @@ jobs:
           label: Build
           message: Failed
           isError: true
+
   macos-ci:
     runs-on: ${{ matrix.os }}-latest
     strategy:
@@ -259,8 +263,8 @@ jobs:
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
         with:
-          minimum: 5
-          maximum: 20
+          minimum: ${{ env.MINIMUM_WAIT }}
+          maximum: ${{ env.MAXIMUM_WAIT }}
 
       - name: Create Awesome Badge - Success
         uses: schneegans/dynamic-badges-action@v1.4.0

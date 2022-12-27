@@ -1,12 +1,14 @@
 on:
-  push:
-    branches:
-      - main
-      - alpha
-      - beta
+  workflow_call:
+    outputs:
+      new_version:
+        description: 'The new version to release'
+        value: ${{ jobs.semantic.outputs.new_release_version }}
+      new_release_published:
+        description: 'Whether a new release was published'
+        value: ${{ jobs.semantic.outputs.new_release_published }}
 
-
-name: Release
+name: Semantic Release
 
 env:
   RUST_BACKTRACE: 1
