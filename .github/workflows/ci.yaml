@@ -112,6 +112,10 @@ jobs:
           message: Failed
           isError: true
 
+      - name: Set Result
+        if: always()
+        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
+
   ubuntu-ci:
     runs-on: ${{ matrix.os }}-latest
     strategy:
@@ -201,6 +205,10 @@ jobs:
           message: Failed
           isError: true
 
+      - name: Set Result
+        if: always()
+        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
+
   macos-ci:
     runs-on: ${{ matrix.os }}-latest
     strategy:
@@ -289,6 +297,10 @@ jobs:
           label: Build
           message: Failed
           isError: true
+
+      - name: Set Result
+        if: always()
+        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
 
   semantic-release:
     needs: [macos-ci, windows-ci, ubuntu-ci]
