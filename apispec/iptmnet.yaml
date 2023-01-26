@@ -1,0 +1,804 @@
+openapi: 3.0.3
+info:
+  description: "This is an API for iPTMNet providing information about post-translational modifications (PTMs) combined from multiple sources and tools."
+  version: 1.0.0
+  title: iPTMNet
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: CC BY-NC-ND 4.0
+    url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+tags:
+  - name: default
+paths:
+  /search:
+    get:
+      summary: "Search for proteins in the iPTMnet database"
+      description: "Search for proteins in the iPTMnet database"
+      operationId: "search"
+      parameters:
+        - name: search_term
+          description: "The term you would like to search"
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: term_type
+          description: "The type of search term"
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: ptm_type
+          description: "The type of PTM to search for. Possible values are Acetylation, C-Glycosylation, Myristoylation, Ubiquitination, N-Glycosylation, S-Glycosylation, Phosphorylation, S-Nitrosylation, O-Glycosylation, Methylation, Sumoylation"
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: role
+          description: ""
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: organism
+          description: "The type of organism to search. The organism is represented by it's taxon ID."
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: paginate
+          description: "A flag that controls if the API should return paginated results. Possible values are 'true' or 'false'"
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: start_index
+          description: "The start index for results to return. The indexing is zero based, hence the first index starts from zero."
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: end_index
+          description: "The end index for results to return. The indexing is zero based, hence the end index will be one less than the total count."
+          in: query
+          required: false
+          schema:
+            type: integer
+      tags:
+        - default
+      responses:
+        '200':
+          description: "A list of result items."
+          headers:
+            count:
+              schema:
+                type: integer
+              description: "The total number of items present in the result."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/search_result_item"
+        '400':
+          description: "bad input parameter"
+  /browse:
+    get:
+      summary: "Browse for proteins in the iPTMnet database"
+      description: "Browse for proteins in the iPTMnet database that are relevant to the given search term."
+      operationId: "browse"
+      parameters:
+        - name: term_type
+          description: "The type of search term"
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: ptm_type
+          description: "The type of PTM to search for. Possible values are Acetylation, C-Glycosylation, Myristoylation, Ubiquitination, N-Glycosylation, S-Glycosylation, Phosphorylation, S-Nitrosylation, O-Glycosylation, Methylation, Sumoylation"
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: role
+          description: ""
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: organism
+          description: "The type of organism to search. The organism is represented by it's taxon ID."
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_index
+          description: "The start index for results to return. The indexing is zero based, hence the first index starts from zero."
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: end_index
+          description: "The end index for results to return. The indexing is zero based, hence the end index will be one less than the total count."
+          in: query
+          required: false
+          schema:
+            type: integer
+      tags:
+        - default
+      responses:
+        '200':
+          description: "A list of result items."
+          headers:
+            count:
+              schema:
+                type: integer
+              description: "The total number of items present in the result."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/search_result_item"
+        '400':
+          description: "bad input parameter"
+  /statistics:
+    get:
+      summary: "Retrieve the statistics for the database"
+      description: "Retrieve the statistics for the database"
+      operationId: statistics
+      tags:
+        - default
+      responses:
+        '200':
+          description: "A list of result items."
+          headers:
+            count:
+              schema:
+                type: integer
+              description: "The total number of items present in the result."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/inline_response_200_1"
+        '400':
+          description: "bad input parameter"
+  /{id}/info:
+    get:
+      summary: "Retrieve top level info about a iPTMNet entry."
+      description: "By passing a IPTMNet identifier, you can retrieve top level info about that protein entry in iPTMNet."
+      operationId: getIdInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "an info object."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/protein_info"
+        '400':
+          description: "bad input parameter"
+  /{id}/msa:
+    get:
+      summary: "Retrieve the annotated MSA for the iPTMNet Entry"
+      description: "By passing a IPTMNet identifier, you can retrieve the default annotated Multiple Sequence Alignment for the entry"
+      operationId: getMsaInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "an array of sequences."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/alignment"
+        '400':
+          description: "bad input parameter"
+        '501':
+          description: "Not yet implemented. Need to find format."
+  /{id}/substrate:
+    get:
+      summary: "Retrieve the list of PTM sites and annotations with that given substrate"
+      description: "By passing a IPTMNet identifier, you can retrieve the list of PTM sites and annotations with that given substrate"
+      operationId: getSubstrateInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "Set of tables for the PTM sites for each proteoform of the given protein"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/inline_response_200"
+        '501':
+          description: "Not yet implemented. Need to find format."
+  /{id}/proteoforms:
+    get:
+      summary: "Retrieve the list of proteoforms for this entry"
+      description: "By passing a IPTMNet identifier, you can retrieve the list of proteoforms for this entry"
+      operationId: getProteoformInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "A list of proteoforms"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/proteoform"
+        '400':
+          description: "bad input parameter"
+  /{id}/ptmppi:
+    get:
+      summary: "Retrieve the list of PTM dependent ppi for the iPTMNet Entry"
+      description: "By passing an IPTMNet identifier, you can retrieve the list of PTM dependent ppi for the iPTMNet Entry"
+      operationId: getPtmppiInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "A list of post translational modification dependent protein protein interactions"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ptm_ppi"
+        '400':
+          description: "bad input parameter"
+  /{id}/proteoformppi:
+    get:
+      summary: "Retrieve the list of PPI among the proteoforms for the iPTMNet Entry"
+      description: "By passing a IPTMNet identifier, you can retrieve the list of PPI among the proteoforms for the iPTMNet Entry"
+      operationId: getProteoformPpiInfo
+      tags:
+        - default
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The iPTMNet ID. Usually reuse UniProt Accession numbers."
+      responses:
+        '200':
+          description: "A list of proteoform protein protein interactions"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/proteoform_ppi"
+        '400':
+          description: "bad input parameter"
+  /batch_ptm_enzymes:
+    post:
+      description: "Retrieve PTM enzymes information for a given list items"
+      summary: "Retrieve PTM enzymes information for a given list items"
+      operationId: batchPtmEnzymes
+      tags:
+        - default
+      requestBody:
+        description: "The list of items for which to retrieve information."
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/batch_param"
+      responses:
+        '200':
+          description: "A list of result items."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/batch_result_ptm_enzymes"
+        '400':
+          description: "bad input parameter"
+  /batch_ptm_ppi:
+    post:
+      description: "Retrieve PTM dependent PPI information for a given list items"
+      summary: "Retrieve PTM dependent PPI information for a given list items"
+      operationId: batchPtmPpi
+      tags:
+        - default
+      requestBody:
+        description: "The list of items for which to retrieve information."
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/batch_param"
+      responses:
+        '200':
+          description: "A list of result items."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/batch_result_ptm_ppi"
+        '400':
+          description: "bad input parameter"
+servers:
+  - url: https://research.bioinformatics.udel.edu/iptmnet/api
+components:
+  schemas:
+    source_stats_source:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+    organism_stats_organism:
+      type: object
+      properties:
+        taxon_id:
+          type: integer
+          format: int64
+        taxon_name:
+          type: string
+        common_name:
+          type: string
+    batch_result_ptm_enzymes_ptm_enzyme:
+      type: object
+      properties:
+        uniprot_id:
+          type: string
+        name:
+          type: string
+    batch_result_ptm_enzymes_substrate:
+      type: object
+      properties:
+        uniprot_id:
+          type: string
+        name:
+          type: string
+    batch_result_ptm_enzymes:
+      type: object
+      properties:
+        ptm_type:
+          type: string
+        substrate:
+          $ref: "#/components/schemas/batch_result_ptm_enzymes_substrate"
+        site:
+          type: string
+        site_position:
+          type: string
+        ptm_enzyme:
+          $ref: "#/components/schemas/batch_result_ptm_enzymes_ptm_enzyme"
+        score:
+          type: integer
+        source:
+          type: array
+          items:
+            $ref: "#/components/schemas/source"
+        pmids:
+          type: integer
+    batch_result_ptm_ppi:
+      type: object
+      properties:
+        ptm_type:
+          type: string
+        substrate:
+          $ref: "#/components/schemas/batch_result_ptm_enzymes_substrate"
+        site:
+          type: string
+        site_position:
+          type: string
+        interactant:
+          $ref: "#/components/schemas/batch_result_ptm_enzymes_ptm_enzyme"
+        association_type:
+          type: string
+        source:
+          type: array
+          items:
+            $ref: "#/components/schemas/source"
+        pmids:
+          type: integer
+    proteoform_ppi_protein_1:
+      type: object
+      properties:
+        pro_id:
+          type: string
+        label:
+          type: string
+    proteoform_ppi_protein_2:
+      type: object
+      properties:
+        pro_id:
+          type: string
+        label:
+          type: string
+    ptm_ppi_substrate:
+      type: object
+      properties:
+        uniprot_id:
+          type: string
+        name:
+          type: string
+    proteoform_ptm_enzyme:
+      type: object
+      properties:
+        pro_id:
+          type: string
+        label:
+          type: string
+    substrate_table_inner_enzyme:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - 'pro_id'
+            - 'uniprot_ac'
+        name:
+          type: string
+    substrate_table_inner:
+      type: object
+      properties:
+        site:
+          type: string
+        'PTM Type':
+          $ref: "#/components/schemas/substrate_table_inner_enzyme"
+        score:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 4
+        sources:
+          type: string
+          format: url
+        PMIDs:
+          type: array
+          items:
+            type: string
+    organism:
+      type: object
+      properties:
+        taxon_code:
+          type: string
+        species:
+          type: string
+        common_name:
+          type: string
+    source_stats:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/source_stats_source"
+        substrates_protein:
+          type: integer
+        substrate_proteoforms:
+          type: integer
+        sites:
+          type: integer
+        enzymes:
+          type: integer
+        enzyme_substrate_pairs:
+          type: integer
+        enzyme_substrate_sites:
+          type: integer
+        ptm_dependent_ppi:
+          type: integer
+        pmids:
+          type: integer
+    organism_stats:
+      type: object
+      properties:
+        organism:
+          $ref: "#/components/schemas/organism_stats_organism"
+        substrates_protein:
+          type: integer
+        substrate_proteoforms:
+          type: integer
+        sites:
+          type: integer
+        enzymes:
+          type: integer
+        enzyme_substrate_pairs:
+          type: integer
+        enzyme_substrate_sites:
+          type: integer
+        ptm_dependent_ppi:
+          type: integer
+        pmids:
+          type: integer
+    event_stats:
+      type: object
+      properties:
+        event_name:
+          type: string
+        substrates_protein:
+          type: integer
+        substrate_proteoforms:
+          type: integer
+        sites:
+          type: integer
+        enzymes:
+          type: integer
+        enzyme_substrate_pairs:
+          type: integer
+        enzyme_substrate_sites:
+          type: integer
+        ptm_dependent_ppi:
+          type: integer
+        pmids:
+          type: integer
+    general_stats:
+      type: object
+      properties:
+        substrates_protein:
+          type: integer
+        substrate_proteoforms:
+          type: integer
+        sites:
+          type: integer
+        enzymes:
+          type: integer
+        enzyme_substrate_pairs:
+          type: integer
+        enzyme_substrate_sites:
+          type: integer
+        ptm_dependent_ppi:
+          type: integer
+        pmids:
+          type: integer
+    batch_param:
+      type: object
+      properties:
+        substrate_ac:
+          type: string
+        site_residue:
+          type: string
+        site_position:
+          type: string
+    search_result_item:
+      type: object
+      properties:
+        iptm_id:
+          type: string
+        protein_name:
+          type: string
+        gene_name:
+          type: string
+        synonyms:
+          type: array
+          items:
+            type: string
+        organism:
+          $ref: "#/components/schemas/organism"
+        substrate_role:
+          type: boolean
+        substrate_num:
+          type: integer
+        enzyme_role:
+          type: boolean
+        enzyme_num:
+          type: integer
+        ptm_dependent_ppi_role:
+          type: boolean
+        ptm_dependent_ppi_num:
+          type: integer
+        sites:
+          type: integer
+        isoforms:
+          type: integer
+    source:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: url
+    proteoform_ppi:
+      type: object
+      properties:
+        protein_1:
+          $ref: "#/components/schemas/proteoform_ppi_protein_1"
+        relation:
+          type: string
+        protein_2:
+          $ref: "#/components/schemas/proteoform_ppi_protein_2"
+        source:
+          $ref: "#/components/schemas/source"
+        pmid:
+          type: integer
+    ptm_ppi:
+      type: object
+      properties:
+        ptm_type:
+          type: string
+        substrate:
+          $ref: "#/components/schemas/ptm_ppi_substrate"
+        site:
+          type: string
+        interactant:
+          $ref: "#/components/schemas/ptm_ppi_substrate"
+        association_type:
+          type: string
+        source:
+          $ref: "#/components/schemas/source"
+        pmid:
+          type: integer
+    proteoform:
+      type: object
+      properties:
+        pro_id:
+          type: string
+        label:
+          type: string
+        sites:
+          type: array
+          items:
+            type: string
+        ptm_enzyme:
+          $ref: "#/components/schemas/proteoform_ptm_enzyme"
+        source:
+          $ref: "#/components/schemas/source"
+    substrate_table:
+      type: array
+      items:
+        $ref: "#/components/schemas/substrate_table_inner"
+    pro_info:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        definition:
+          type: string
+        short_label:
+          type: string
+        category:
+          type: string
+          enum:
+            - external
+            - family
+            - gene
+            - sequence
+            - modification, complex
+            - organism-family
+            - organism-gene
+            - organism-sequence
+            - organism-modification
+            - organism-complex
+            - union
+            - organism-seqgroup
+    protein_info:
+      type: object
+      properties:
+        uniprot_ac:
+          type: string
+        uniprot_id:
+          type: string
+        protein_name:
+          type: string
+        gene_name:
+          type: string
+        synonyms:
+          type: array
+          items:
+            type: string
+        organism:
+          $ref: "#/components/schemas/organism"
+        pro:
+          $ref: "#/components/schemas/pro_info"
+    decoration:
+      type: object
+      properties:
+        ptm_type:
+          type: string
+        source:
+          $ref: "#/components/schemas/source"
+        pmids:
+          type: array
+          items:
+            type: string
+    alignment_item:
+      type: object
+      properties:
+        site:
+          type: string
+        source:
+          type: array
+          items:
+            $ref: "#/components/schemas/decoration"
+    alignment:
+      type: object
+      properties:
+        id:
+          type: string
+        sequence:
+          type: array
+          items:
+            $ref: "#/components/schemas/alignment_item"
+    inline_response_200:
+      type: object
+      properties:
+        form:
+          type: string
+        table:
+          $ref: "#/components/schemas/substrate_table"
+    inline_response_200_1:
+      type: object
+      properties:
+        general_info:
+          $ref: "#/components/schemas/general_stats"
+        event_type:
+          type: array
+          items:
+            $ref: "#/components/schemas/event_stats"
+        top_organisms:
+          type: array
+          items:
+            $ref: "#/components/schemas/organism_stats"
+        source:
+          type: array
+          items:
+            $ref: "#/components/schemas/source_stats"
