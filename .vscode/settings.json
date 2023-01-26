@@ -3,6 +3,10 @@
         "iptmid",
         "isoforms",
         "long",
+        "proteoform",
+        "proteoformppi",
+        "proteoforms",
+        "seqgroup",
         "wit"
     ]
 }
