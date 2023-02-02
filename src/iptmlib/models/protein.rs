@@ -25,7 +25,7 @@ type Synonym = String;
 /// # The Protein Struct
 ///
 /// This struct encodes the summary information about a protein.
-/// This contains the same information as the Protein construct returned from the `/seacrch` endpoint
+/// This contains the same information as the Protein construct returned from the `/search` endpoint
 /// from the iPTMNet API.
 ///
 /// ## Examples
