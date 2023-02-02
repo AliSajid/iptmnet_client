@@ -14,21 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use std::fmt;
-use std::fmt::Display;
-
 use clap::ValueEnum;
-use urlencoding::encode;
-
-pub trait UrlEncode: Display {
-    fn url_encode(&self) -> String {
-        let target = format!("{}", &self);
-        encode(&target).into_owned()
-    }
-}
+use serde::{Deserialize, Serialize};
+use std::fmt;
 
 #[allow(clippy::upper_case_acronyms)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum, Serialize, Deserialize)]
 pub enum ItemType {
     All,
     #[clap(name = "uniprot-id")]
@@ -37,15 +28,13 @@ pub enum ItemType {
     PMID,
 }
 
-impl UrlEncode for ItemType {}
-
 impl fmt::Display for ItemType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self)
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum, Serialize, Deserialize)]
 pub enum PtmType {
     Acetylation,
     CGlycosylation,
@@ -73,22 +62,56 @@ impl fmt::Display for PtmType {
     }
 }
 
-impl UrlEncode for PtmType {}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum, Serialize, Deserialize)]
 pub enum Role {
     Enzyme,
     Substrate,
     Both,
 }
 
-impl UrlEncode for Role {}
-
 impl fmt::Display for Role {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Role::Both => write!(f, "Enzyme or Substrate"),
             _ => write!(f, "{:?}", self),
+        }
+    }
+}
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct SearchParameters {
+    search_term: String,
+    term_type: ItemType,
+    role: Role,
+    ptm_type: Option<PtmType>,
+    organism: Option<String>,
+}
+
+impl SearchParameters {
+    pub fn new(
+        search_term: String,
+        term_type: ItemType,
+        role: Role,
+        ptm_type: Option<PtmType>,
+        organism: Option<String>,
+    ) -> Self {
+        Self {
+            search_term,
+            term_type,
+            role,
+            ptm_type,
+            organism,
+        }
+    }
+}
+
+impl Default for SearchParameters {
+    fn default() -> Self {
+        Self {
+            search_term: String::new(),
+            term_type: ItemType::All,
+            role: Role::Both,
+            ptm_type: None,
+            organism: None,
         }
     }
 }

@@ -19,7 +19,8 @@ mod cli;
 use clap::Parser;
 use cli::*;
 mod helpers;
-use helpers::UrlEncode;
+
+use helpers::SearchParameters;
 use iptmlib::models::protein::Protein;
 
 #[tokio::main]
@@ -29,15 +30,31 @@ async fn main() -> Result<(), reqwest::Error> {
     println!("Query: {}", args.search);
     println!("Item Type: {}", args.item_type);
     println!("Role: {}", args.role);
-    match args.ptm_type {
+    match &args.ptm_type {
         Some(ptm_type) => println!("PTM Type: {}", ptm_type),
-        None => println!("PTM Type: None"),
+        None => println!("PTM Type: All"),
+    }
+    match &args.organism {
+        Some(organism) => {
+            println!("Organism: {}", organism);
+        }
+        None => println!("Organism: All"),
     }
 
-    let url = format!("https://research.bioinformatics.udel.edu/iptmnet/api/search?search_term={}&term_type={}&role={}", args.search, args.item_type.url_encode(), args.role.url_encode());
-    println!("Access URL: {}", url);
+    let baseurl = "https://research.bioinformatics.udel.edu/iptmnet/api/search";
 
-    let response = reqwest::get(url).await?.json::<Vec<Protein>>().await?;
+    let parameters = SearchParameters::new(
+        args.search,
+        args.item_type,
+        args.role,
+        args.ptm_type,
+        args.organism,
+    );
+
+    let client = reqwest::Client::new();
+    let request = client.get(baseurl).query(&parameters);
+
+    let response = request.send().await?.json::<Vec<Protein>>().await?;
 
     println!("{:#?}", response);
 

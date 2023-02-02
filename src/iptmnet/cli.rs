@@ -81,4 +81,14 @@ pub struct Cli {
     /// 3. both
     #[clap(short, long, value_parser, value_name = "ROLE", arg_enum)]
     pub role: Role,
+
+    /// The organism to restrict the search to
+    ///
+    /// This argument allows you to subset the search results based on the organism
+    /// of interest. This argument accepts common names of the organisms.
+    /// The default is empty, which includes all organisms in the database.
+    ///
+    ///
+    #[clap(long, value_parser, value_name = "ORGANISM")]
+    pub organism: Option<String>,
 }
