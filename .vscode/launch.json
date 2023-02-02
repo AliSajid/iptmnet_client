@@ -1,0 +1,69 @@
+{
+    "configurations": [
+        {
+            "args": [],
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=iptmnet"
+                ],
+                "filter": {
+                    "kind": "lib",
+                    "name": "iptmlib"
+                }
+            },
+            "cwd": "${workspaceFolder}",
+            "name": "Debug unit tests in library 'iptmlib'",
+            "request": "launch",
+            "type": "lldb"
+        },
+        {
+            "args": [
+                "--search",
+                "DISC1",
+                "--role",
+                "both"
+            ],
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=iptmnet",
+                    "--package=iptmnet"
+                ],
+                "filter": {
+                    "kind": "bin",
+                    "name": "iptmnet"
+                }
+            },
+            "cwd": "${workspaceFolder}",
+            "name": "Debug executable 'iptmnet'",
+            "request": "launch",
+            "type": "lldb"
+        },
+        {
+            "args": [
+                "--search DISC1",
+                "--role both"
+            ],
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=iptmnet",
+                    "--package=iptmnet"
+                ],
+                "filter": {
+                    "kind": "bin",
+                    "name": "iptmnet"
+                }
+            },
+            "cwd": "${workspaceFolder}",
+            "name": "Debug unit tests in executable 'iptmnet'",
+            "request": "launch",
+            "type": "lldb"
+        }
+    ],
+    "version": "0.2.0"
+}
