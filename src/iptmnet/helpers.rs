@@ -77,6 +77,7 @@ impl fmt::Display for Role {
         }
     }
 }
+
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct SearchParameters {
     search_term: String,
@@ -113,5 +114,69 @@ impl Default for SearchParameters {
             ptm_type: None,
             organism: None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_search_parameters() {
+        let search_parameters = SearchParameters::new(
+            "test".to_string(),
+            ItemType::All,
+            Role::Both,
+            Some(PtmType::Acetylation),
+            Some("test".to_string()),
+        );
+
+        assert_eq!(search_parameters.search_term, "test");
+        assert_eq!(search_parameters.term_type, ItemType::All);
+        assert_eq!(search_parameters.role, Role::Both);
+        assert_eq!(search_parameters.ptm_type, Some(PtmType::Acetylation));
+        assert_eq!(search_parameters.organism, Some("test".to_string()));
+    }
+
+    #[test]
+    fn test_search_parameters_default() {
+        let search_parameters = SearchParameters::default();
+
+        assert_eq!(search_parameters.search_term, "");
+        assert_eq!(search_parameters.term_type, ItemType::All);
+        assert_eq!(search_parameters.role, Role::Both);
+        assert_eq!(search_parameters.ptm_type, None);
+        assert_eq!(search_parameters.organism, None);
+    }
+
+    #[test]
+    fn test_item_type_display() {
+        assert_eq!(format!("{}", ItemType::All), "All");
+        assert_eq!(format!("{}", ItemType::UniProtID), "UniProtID");
+        assert_eq!(format!("{}", ItemType::ProteinGeneName), "ProteinGeneName");
+        assert_eq!(format!("{}", ItemType::PMID), "PMID");
+    }
+
+    #[test]
+    fn test_ptm_type_display() {
+        assert_eq!(PtmType::CGlycosylation.to_string(), "C-Glycosylation");
+        assert_eq!(PtmType::NGlycosylation.to_string(), "N-Glycosylation");
+        assert_eq!(PtmType::SGlycosylation.to_string(), "S-Glycosylation");
+        assert_eq!(PtmType::OGlycosylation.to_string(), "O-Glycosylation");
+        assert_eq!(PtmType::SNitrosylation.to_string(), "S-Nitrosylation");
+    }
+
+    #[test]
+    fn test_role_display() {
+        assert_eq!(Role::Both.to_string(), "Enzyme or Substrate");
+    }
+
+    #[test]
+    fn test_item_type_serde() {
+        let item_type = ItemType::All;
+        let serialized = serde_json::to_string(&item_type).unwrap();
+        let deserialized: ItemType = serde_json::from_str(&serialized).unwrap();
+
+        assert_eq!(item_type, deserialized);
     }
 }
