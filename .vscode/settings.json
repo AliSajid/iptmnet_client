@@ -9,6 +9,7 @@
         "proteoforms",
         "reqwest",
         "seqgroup",
+        "serde",
         "wit"
     ]
 }
