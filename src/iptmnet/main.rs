@@ -31,12 +31,12 @@ async fn main() -> Result<(), reqwest::Error> {
     println!("Item Type: {}", args.item_type);
     println!("Role: {}", args.role);
     match &args.ptm_type {
-        Some(ptm_type) => println!("PTM Type: {}", ptm_type),
+        Some(ptm_type) => println!("PTM Type: {ptm_type}"),
         None => println!("PTM Type: All"),
     }
     match &args.organism {
         Some(organism) => {
-            println!("Organism: {}", organism);
+            println!("Organism: {organism}");
         }
         None => println!("Organism: All"),
     }
@@ -56,7 +56,7 @@ async fn main() -> Result<(), reqwest::Error> {
 
     let response = request.send().await?.json::<Vec<Protein>>().await?;
 
-    println!("{:#?}", response);
+    println!("{response:#?}");
 
     Ok(())
 }

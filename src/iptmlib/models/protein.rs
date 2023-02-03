@@ -191,7 +191,7 @@ mod tests {
             String::from("PK1IP_HUMAN"),
         );
 
-        assert_eq!(format!("{}", prot), "PAK1IP1 - Human")
+        assert_eq!(format!("{prot}"), "PAK1IP1 - Human")
     }
 
     #[test]

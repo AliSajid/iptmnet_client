@@ -30,7 +30,7 @@ pub enum ItemType {
 
 impl fmt::Display for ItemType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 
@@ -57,7 +57,7 @@ impl fmt::Display for PtmType {
             PtmType::SGlycosylation => write!(f, "S-Glycosylation"),
             PtmType::OGlycosylation => write!(f, "O-Glycosylation"),
             PtmType::SNitrosylation => write!(f, "S-Nitrosylation"),
-            _ => write!(f, "{:?}", self),
+            _ => write!(f, "{self:?}"),
         }
     }
 }
@@ -73,7 +73,7 @@ impl fmt::Display for Role {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Role::Both => write!(f, "Enzyme or Substrate"),
-            _ => write!(f, "{:?}", self),
+            _ => write!(f, "{self:?}"),
         }
     }
 }

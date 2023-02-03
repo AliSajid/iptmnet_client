@@ -107,7 +107,7 @@ mod test {
     fn test_print() {
         let org = Organism::new("Homo Sapiens", "9606", "Human");
 
-        assert_eq!(format!("{}", org), "Human - 9606 (Homo Sapiens)")
+        assert_eq!(format!("{org}"), "Human - 9606 (Homo Sapiens)")
     }
 
     #[test]

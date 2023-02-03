@@ -45,7 +45,6 @@ pub struct Cli {
         long,
         value_parser,
         value_name = "ITEM_TYPE",
-        arg_enum,
         default_value = "all"
     )]
     pub item_type: ItemType,
@@ -66,7 +65,7 @@ pub struct Cli {
     /// 8. phosphorylation
     /// 9. sumoylation
     /// 10. ubiquitination
-    #[clap(short, long, value_parser, value_name = "PTM_TYPE", arg_enum)]
+    #[clap(short, long, value_parser, value_name = "PTM_TYPE")]
     pub ptm_type: Option<PtmType>,
 
     /// The role for the search term
@@ -79,7 +78,7 @@ pub struct Cli {
     /// 1. enzyme
     /// 2. substrate
     /// 3. both
-    #[clap(short, long, value_parser, value_name = "ROLE", arg_enum)]
+    #[clap(short, long, value_parser, value_name = "ROLE")]
     pub role: Role,
 
     /// The organism to restrict the search to
