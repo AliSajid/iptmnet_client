@@ -27,9 +27,6 @@ use iptmlib::models::protein::Protein;
 async fn main() -> Result<(), reqwest::Error> {
     let args = Cli::parse();
 
-    println!("Query: {}", args.search);
-    println!("Item Type: {}", args.item_type);
-    println!("Role: {}", args.role);
     match &args.ptm_type {
         Some(ptm_type) => println!("PTM Type: {ptm_type}"),
         None => println!("PTM Type: All"),
