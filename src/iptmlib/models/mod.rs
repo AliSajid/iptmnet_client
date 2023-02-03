@@ -16,3 +16,6 @@
 
 pub mod organism;
 pub mod protein;
+
+pub use organism::Organism;
+pub use protein::Protein;

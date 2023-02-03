@@ -15,7 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 pub mod models;
-use models::protein::Protein;
+// use models::Organism;
+use models::Protein;
+// use std::collections::HashMap;
 
 pub enum IPTMResultError {
     DeserializingError(serde_json::Error),
