@@ -27,17 +27,6 @@ use iptmlib::models::protein::Protein;
 async fn main() -> Result<(), reqwest::Error> {
     let args = Cli::parse();
 
-    match &args.ptm_type {
-        Some(ptm_type) => println!("PTM Type: {ptm_type}"),
-        None => println!("PTM Type: All"),
-    }
-    match &args.organism {
-        Some(organism) => {
-            println!("Organism: {organism}");
-        }
-        None => println!("Organism: All"),
-    }
-
     let baseurl = "https://research.bioinformatics.udel.edu/iptmnet/api/search";
 
     let parameters = SearchParameters::new(
