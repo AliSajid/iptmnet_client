@@ -52,37 +52,25 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
           components: rustfmt, clippy
 
       - name: Cache dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
-      - uses: actions-rs/cargo@v1
-        name: Build
-        with:
-          command: build
+      - name: Cargo Build
+        run: cargo build --verbose
 
-      - uses: actions-rs/cargo@v1
-        name: Test
-        with:
-          command: test
+      - name: Cargo Test
+        run: cargo test
 
-      - uses: actions-rs/cargo@v1
-        name: Format
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Cargo Format
+        run: cargo fmt --all -- --check
 
-      - uses: actions-rs/cargo@v1
-        name: Lint
-        with:
-          command: clippy
-          args: -- -D warnings
+      - name: Cargo Lint
+        run: cargo clippy -- -D warnings
 
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
@@ -144,38 +132,26 @@ jobs:
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
-      - uses: actions-rs/toolchain@v1
-        name: Install Rust
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
           components: rustfmt, clippy
 
       - name: Cache dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
-      - uses: actions-rs/cargo@v1
-        name: Build
-        with:
-          command: build
+      - name: Cargo Build
+        run: cargo build --verbose
 
-      - uses: actions-rs/cargo@v1
-        name: Test
-        with:
-          command: test
+      - name: Cargo Test
+        run: cargo test
 
-      - uses: actions-rs/cargo@v1
-        name: Format
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Cargo Format
+        run: cargo fmt --all -- --check
 
-      - uses: actions-rs/cargo@v1
-        name: Lint
-        with:
-          command: clippy
-          args: -- -D warnings
+      - name: Cargo Lint
+        run: cargo clippy -- -D warnings
 
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
@@ -237,38 +213,26 @@ jobs:
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
-      - uses: actions-rs/toolchain@v1
-        name: Install Rust
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
           components: rustfmt, clippy
 
       - name: Cache dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
-      - uses: actions-rs/cargo@v1
-        name: Build
-        with:
-          command: build
+      - name: Cargo Build
+        run: cargo build --verbose
 
-      - uses: actions-rs/cargo@v1
-        name: Test
-        with:
-          command: test
+      - name: Cargo Test
+        run: cargo test
 
-      - uses: actions-rs/cargo@v1
-        name: Format
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Cargo Format
+        run: cargo fmt --all -- --check
 
-      - uses: actions-rs/cargo@v1
-        name: Lint
-        with:
-          command: clippy
-          args: -- -D warnings
+      - name: Cargo Lint
+        run: cargo clippy -- -D warnings
 
       - name: Random Wait
         uses: AliSajid/random-wait-action@v1.1.0
@@ -311,9 +275,8 @@ jobs:
 
   upload-release-artifacts:
     needs: [semantic-release]
-    if: needs.semantic-release.outputs.new_release == 'true'
+    if: needs.semantic-release.outputs.new_release_published == 'true'
     uses: ./.github/workflows/release_upload.yaml
     secrets: inherit # pragma: allowlist secret
     with:
       new_version: ${{ needs.semantic-release.outputs.new_version }}
-      new_release_published: ${{ needs.semantic-release.outputs.new_release_published }}

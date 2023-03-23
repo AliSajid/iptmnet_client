@@ -3,16 +3,16 @@ on:
     outputs:
       new_version:
         description: 'The new version to release'
-        value: ${{ jobs.semantic.outputs.new_release_version }}
+        value: ${{ jobs.release.outputs.new_release_version }}
       new_release_published:
         description: 'Whether a new release was published'
-        value: ${{ jobs.semantic.outputs.new_release_published }}
+        value: ${{ jobs.release.outputs.new_release_published }}
 
 name: Semantic Release
 
 env:
   RUST_BACKTRACE: 1
-  SEMREL_RUST_VERSION: 2.1.15
+  SEMREL_RUST_VERSION: 2.1.53
 
 
 jobs:
@@ -20,9 +20,8 @@ jobs:
         name: Semantic Release
         runs-on: ubuntu-latest
         outputs:
-          release_version: ${{steps.semantic.outputs.new_release_version}}
-          new_release: ${{steps.semantic.outputs.new_release_published}}
-          github_event_data: ${{ steps.payload.outputs.github_event_data }}
+          new_version: ${{ steps.semantic.outputs.new_release_version }}
+          new_release_published: ${{ steps.semantic.outputs.new_release_published }}
         steps:
           - name: Checkout
             uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
@@ -30,44 +29,35 @@ jobs:
                 fetch-depth: 0
                 persist-credentials: false
 
-          - name: Save Event Payload
-            id: payload
-            run: |
-              echo "::set-output name=github_event_data::$(cat $GITHUB_EVENT_PATH | base64)"
-
           - name: Install Python
-            uses: actions/setup-python@v4
+            uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
             with:
               python-version: '3.10'
 
           - name: install commitizen
             run: pip install -U commitizen
 
-          - name: Install Rust Stable
-            uses: actions-rs/toolchain@v1
-            with:
-                profile: minimal
-                toolchain: stable
-                override: true
+          - name: Install Rust
+            uses: dtolnay/rust-toolchain@stable
+
+          - name: Cache dependencies
+            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
           # The release build is used in the Semantic Release step
-          - name: Build
-            uses: actions-rs/cargo@v1
-            with:
-                command: build
-                args: --release
+          - name: Cargo Build Release
+            run: cargo build --verbose --release
 
-          - name: Install Semantic Release Cargo
+          - name: Install Semantic Release Rust
             run: cargo install semantic-release-cargo --version ${{ env.SEMREL_RUST_VERSION }}
 
           - name: Semantic Release
-            uses: cycjimmy/semantic-release-action@8f6ceb9d5aae5578b1dcda6af00008235204e7fa # v3.2.0
+            uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea # v3.4.0
             id: semantic
             with:
-                semantic_version: 19.0.5
+                semantic_version: 19
                 extra_plugins: |
-                    @semantic-release/exec@6.0
-                    @semantic-release/git@10.0
+                    @semantic-release/exec@6
+                    @semantic-release/git@10
             env:
                 GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT_GITHUB }}
                 CARGO_REGISTRY_TOKEN: ${{ secrets.SEMREL_CRATES_IO }}

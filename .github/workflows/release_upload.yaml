@@ -39,24 +39,33 @@ jobs:
                 fetch-depth: 0
                 persist-credentials: false
 
-          - name: Install Rust Stable
-            uses: actions-rs/toolchain@v1
-            with:
-                profile: minimal
-                toolchain: stable
-                override: true
+          - name: Install Rust
+            uses: dtolnay/rust-toolchain@stable
 
           - name: Create the event file
             run: |
               cat $GITHUB_EVENT_PATH | jq -r .release.tag_name | xargs -I {} echo 'RELEASE_VERSION="{}"' >> $GITHUB_ENV
 
           - name: Compile and release
-            uses: rust-build/rust-build.action@v1.3.2
+            uses: rust-build/rust-build.action@7d5b0c135ddb825f7692d4d2d75e598184d15cec # v1.4.3
+            id: release
             env:
               GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT_GITHUB }}
             with:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              ARCHIVE_NAME: IPTMNet-CLI${{ env.RELEASE_VERSION }}${{matrix.platform}}
-              EXTRA_FILES: "README.md LICENSE"
+              UPLOAD_URL: "none"
+              ARCHIVE_NAME: icd-converter${{ env.RELEASE_VERSION }}${{matrix.platform}}
+              EXTRA_FILES: "README.md LICENSE-APACHE LICENSE-MIT"
+
+          - name: Upload Release Artifacts
+            uses: actions/upload-release-asset@v1
+            id: upload-release-asset
+            env:
+              GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT_GITHUB }}
+            with:
+              name: icd-converter${{ env.RELEASE_VERSION }}${{matrix.platform}}
+              path: |
+                ${{ steps.release.outputs.BUILT_ARCHIVE }}
+                ${{ steps.release.outputs.BUILT_CHECKSUM }}
