@@ -1,0 +1,82 @@
+
+# cargo-vet audits file
+
+[[audits.backtrace]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.3.66 -> 0.3.67"
+
+[[audits.fastrand]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "1.9.0 -> 1.8.0"
+
+[[audits.form_urlencoded]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "1.1.0 -> 1.0.1"
+
+[[audits.idna]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.3.0 -> 0.2.3"
+
+[[audits.is-terminal]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.4.3 -> 0.4.2"
+
+[[audits.is-terminal]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.4.3 -> 0.4.2"
+
+[[audits.linux-raw-sys]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.1.3 -> 0.1.4"
+
+[[audits.percent-encoding]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "2.2.0 -> 2.1.0"
+
+[[audits.url]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "2.3.1 -> 2.2.2"
+
+[[audits.wasm-bindgen-shared]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.2.83 -> 0.2.82"
+
+[[audits.windows-sys]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
+
+[[audits.windows_aarch64_msvc]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
+
+[[audits.windows_i686_gnu]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
+
+[[audits.windows_i686_msvc]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
+
+[[audits.windows_x86_64_gnu]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
+
+[[audits.windows_x86_64_msvc]]
+who = "Ali Sajid Imami <395482+AliSajid@users.noreply.github.com>"
+criteria = "safe-to-deploy"
+delta = "0.42.0 -> 0.36.1"
