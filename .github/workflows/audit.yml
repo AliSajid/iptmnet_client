@@ -16,7 +16,12 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+
+            - name: Install Rust
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+
             - name: Audit
-              uses: actions-rs/audit-check@v1
-              with:
-                  token: ${{ secrets.ACTIONS_PAT_GITHUB }}
+              run: cargo audit

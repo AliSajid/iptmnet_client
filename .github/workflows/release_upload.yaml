@@ -55,9 +55,9 @@ jobs:
               MINIFY: true
               RUSTTARGET: ${{ matrix.target }}
               ARCHIVE_TYPES: ${{ matrix.archive }}
-              UPLOAD_URL: "none"
+              UPLOAD_MODE: "none"
               ARCHIVE_NAME: icd-converter${{ env.RELEASE_VERSION }}${{matrix.platform}}
-              EXTRA_FILES: "README.md LICENSE-APACHE LICENSE-MIT"
+              EXTRA_FILES: "README.md LICENSE"
 
           - name: Upload Release Artifacts
             uses: softprops/action-gh-release@v1
