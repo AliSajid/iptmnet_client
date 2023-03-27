@@ -508,7 +508,7 @@ checksum = "30e22bd8629359895450b59ea7a776c850561b96a3b1d31321c1949d9e6c9146"
 
 [[package]]
 name = "iptmnet"
-version = "1.7.1"
+version = "1.8.0"
 dependencies = [
  "clap",
  "reqwest",
