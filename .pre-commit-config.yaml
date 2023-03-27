@@ -99,13 +99,6 @@ repos:
     types: [rust]
     stages: [commit]
     pass_filenames: false
-  - id: cargo-vet
-    name: cargo-vet
-    entry: cargo vet
-    language: system
-    types: [rust]
-    stages: [commit]
-    pass_filenames: false
   - id: cargo-nag
     name: cargo-nag
     entry: cargo nag
