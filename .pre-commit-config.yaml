@@ -106,3 +106,10 @@ repos:
     types: [rust]
     stages: [commit]
     pass_filenames: false
+  - id: cargo-test
+    name: cargo-test
+    entry: cargo test
+    language: system
+    types: [rust]
+    stages: [commit]
+    pass_filenames: false
