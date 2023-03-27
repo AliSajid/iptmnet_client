@@ -18,4 +18,4 @@ plugins:
         prepareCmd: "~/.cargo/bin/semantic-release-cargo prepare ${nextRelease.version}"
         publishCmd: "~/.cargo/bin/semantic-release-cargo publish"
     - - '@semantic-release/git'
-      - assets: Cargo.toml
+      - assets: Cargo.toml Cargo.lock
