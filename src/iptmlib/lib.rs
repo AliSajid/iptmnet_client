@@ -31,15 +31,3 @@ pub enum IPTMResult {
         results: Vec<Protein>,
     },
 }
-
-pub fn get_search_data(json_data: &str) -> IPTMResult {
-    let deserialized: Result<Vec<Protein>, serde_json::Error> = serde_json::from_str(json_data);
-
-    match deserialized {
-        Ok(json) => IPTMResult::ProteinResults {
-            num_results: json.len(),
-            results: json,
-        },
-        Err(error) => IPTMResult::Error(IPTMResultError::DeserializingError(error)),
-    }
-}
