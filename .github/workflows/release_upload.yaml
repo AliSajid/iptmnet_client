@@ -60,7 +60,7 @@ jobs:
               EXTRA_FILES: "README.md LICENSE-APACHE LICENSE-MIT"
 
           - name: Upload Release Artifacts
-            uses: actions/upload-release-asset@v1
+            uses: softprops/action-gh-release@v1
             id: upload-release-asset
             env:
               GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT_GITHUB }}
