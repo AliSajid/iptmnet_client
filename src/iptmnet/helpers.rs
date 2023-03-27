@@ -66,13 +66,15 @@ impl fmt::Display for PtmType {
 pub enum Role {
     Enzyme,
     Substrate,
+    Either,
     Both,
 }
 
 impl fmt::Display for Role {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Role::Both => write!(f, "Enzyme or Substrate"),
+            Role::Both => write!(f, "Enzyme and Substrate"),
+            Role::Either => write!(f, "Enzyme or Substrate"),
             _ => write!(f, "{self:?}"),
         }
     }
