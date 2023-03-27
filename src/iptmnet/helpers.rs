@@ -170,7 +170,8 @@ mod tests {
 
     #[test]
     fn test_role_display() {
-        assert_eq!(Role::Both.to_string(), "Enzyme or Substrate");
+        assert_eq!(Role::Both.to_string(), "Enzyme and Substrate");
+        assert_eq!(Role::Either.to_string(), "Enzyme or Substrate");
     }
 
     #[test]
