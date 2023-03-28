@@ -14,19 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::protein::Protein;
+use crate::models::Protein;
+use serde::Deserialize;
+use std::fmt::Display;
 
-struct ProteinVec {
+#[derive(Default, Clone, Eq, PartialEq, Debug, Deserialize)]
+pub struct ProteinVec {
     proteins: Vec<Protein>,
     num_results: usize,
 }
 
-#[derive(Clone, Eq, PartialEq, Debug, Deserialize)]
+#[allow(dead_code)]
 impl ProteinVec {
     fn new(proteins: Vec<Protein>) -> Self {
+        let num_results = proteins.len();
         Self {
             proteins,
-            num_results: proteins.len(),
+            num_results,
         }
     }
 
@@ -50,27 +54,20 @@ impl Display for ProteinVec {
     }
 }
 
-impl Default for ProteinVec {
-    fn default() -> Self {
-        Self {
-            proteins: Vec::new(),
-            num_results: 0,
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::models::Organism;
 
     #[test]
     fn test_protein_vec() {
         let mut pv = ProteinVec::default();
+        let human = Organism::new("Homo Sapiens", "9606", "Human");
         assert_eq!(pv.get_num_results(), 0);
         let p = Protein::new(
             String::from("PK1IP_HUMAN"),
             0,
-            Organism::Human,
+            human,
             false,
             Vec::new(),
             0,
@@ -89,10 +86,11 @@ mod tests {
 
     #[test]
     fn test_protein_vec_new() {
+        let human = Organism::new("Homo Sapiens", "9606", "Human");
         let p = Protein::new(
             String::from("PK1IP_HUMAN"),
             0,
-            Organism::Human,
+            human,
             false,
             Vec::new(),
             0,
@@ -111,10 +109,11 @@ mod tests {
 
     #[test]
     fn test_protein_vec_get_proteins() {
+        let human = Organism::new("Homo Sapiens", "9606", "Human");
         let p = Protein::new(
             String::from("PK1IP_HUMAN"),
             0,
-            Organism::Human,
+            human,
             false,
             Vec::new(),
             0,
@@ -133,10 +132,11 @@ mod tests {
 
     #[test]
     fn test_protein_vec_display() {
+        let human = Organism::new("Homo Sapiens", "9606", "Human");
         let p1 = Protein::new(
             String::from("PK1IP_HUMAN"),
             0,
-            Organism::Human,
+            human,
             false,
             Vec::new(),
             0,
@@ -149,10 +149,11 @@ mod tests {
             0,
             String::from("PK1IP_HUMAN"),
         );
+        let human = Organism::new("Homo Sapiens", "9606", "Human");
         let p2 = Protein::new(
             String::from("PK2IP_HUMAN"),
             0,
-            Organism::Human,
+            human,
             false,
             Vec::new(),
             0,
