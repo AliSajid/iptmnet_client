@@ -16,6 +16,8 @@
 
 pub mod organism;
 pub mod protein;
+pub mod protein_vec;
 
 pub use organism::Organism;
 pub use protein::Protein;
+pub use protein_vec::ProteinVec;
