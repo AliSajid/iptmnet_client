@@ -5,11 +5,16 @@ on:
     - cron:  '30 5,17 * * *'
   push:
     branches:
-      - '*'
+      - "*"
       - '!main'
   pull_request:
+    types:
+      - "opened"
+      - "closed"
     branches:
-      - 'main'
+      - "main"
+      - "alpha"
+      - "beta"
   workflow_dispatch:
 
 
@@ -270,6 +275,7 @@ jobs:
 
   semantic-release:
     needs: [macos-ci, windows-ci, ubuntu-ci]
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/release.yaml
     secrets: inherit # pragma: allowlist secret
 
@@ -281,3 +287,5 @@ jobs:
     with:
       new_version: ${{ needs.semantic-release.outputs.new_version }}
       new_release_published: ${{ needs.semantic-release.outputs.new_release_published }}
+      new_release_notes: ${{ needs.semantic-release.outputs.new_release_notes }}
+      new_release_channel: ${{ needs.semantic-release.outputs.new_release_channel }}
