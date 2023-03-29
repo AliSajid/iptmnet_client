@@ -18,7 +18,7 @@ paths:
       operationId: "search"
       parameters:
         - name: search_term
-          description: "The term you would like to search"
+          description: "The term you would like to search for"
           in: query
           required: true
           schema:
