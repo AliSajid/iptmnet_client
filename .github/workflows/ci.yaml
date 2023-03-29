@@ -9,7 +9,6 @@ on:
       - '!main'
   pull_request:
     types:
-      - "opened"
       - "closed"
     branches:
       - "main"
@@ -275,7 +274,6 @@ jobs:
 
   semantic-release:
     needs: [macos-ci, windows-ci, ubuntu-ci]
-    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/release.yaml
     secrets: inherit # pragma: allowlist secret
 
