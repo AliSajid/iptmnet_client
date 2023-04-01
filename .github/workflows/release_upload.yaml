@@ -73,7 +73,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT_GITHUB }}
             with:
-              name: icd-converter${{ env.RELEASE_VERSION }}${{matrix.platform}}
+              name: iptmnet-${{ env.RELEASE_VERSION }}${{matrix.platform}}
               tag_name: v${{ env.RELEASE_VERSION }}
               body: ${{ inputs.new_release_notes }}
               prerelease: ${{ inputs.new_release_channel == 'alpha' || inputs.new_release_channel == 'beta' }}
