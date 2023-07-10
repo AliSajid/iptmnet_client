@@ -1,15 +1,22 @@
 {
     "cSpell.words": [
+        "Acetylation",
+        "Glycosylation",
         "iptmid",
         "iptmlib",
         "isoforms",
         "long",
+        "Methylation",
+        "Myristoylation",
+        "Nitrosylation",
         "proteoform",
         "proteoformppi",
         "proteoforms",
         "reqwest",
         "seqgroup",
         "serde",
+        "Sumoylation",
+        "Ubiquitination",
         "wit"
     ]
 }
