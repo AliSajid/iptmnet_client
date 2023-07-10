@@ -21,7 +21,7 @@ use cli::*;
 mod helpers;
 
 use helpers::SearchParameters;
-use iptmlib::models::protein::Protein;
+use iptmlib::models::ProteinVec;
 
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
@@ -40,9 +40,9 @@ async fn main() -> Result<(), reqwest::Error> {
     let client = reqwest::Client::new();
     let request = client.get(baseurl).query(&parameters);
 
-    let response = request.send().await?.json::<Vec<Protein>>().await?;
-
-    println!("{response:#?}");
+    let response = request.send().await?.json::<ProteinVec>().await?;
+    // render the response as JSON
+    println!("{response}");
 
     Ok(())
 }

@@ -15,10 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use crate::models::Protein;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 
-#[derive(Default, Clone, Eq, PartialEq, Debug, Deserialize)]
+#[derive(Default, Clone, Eq, PartialEq, Debug, Deserialize, Serialize)]
 pub struct ProteinVec {
     proteins: Vec<Protein>,
     num_results: usize,

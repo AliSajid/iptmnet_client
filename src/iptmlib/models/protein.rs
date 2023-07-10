@@ -16,7 +16,7 @@
 
 use std::fmt::Display;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::models::organism::Organism;
 
@@ -56,7 +56,7 @@ type Synonym = String;
 ///  );
 ///
 /// ```
-#[derive(Clone, Eq, PartialEq, Debug, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Deserialize, Serialize)]
 pub struct Protein {
     enzyme_num: u32,
     enzyme_role: bool,

@@ -75,9 +75,10 @@ pub struct Cli {
     /// The default is to include use both.
     ///
     /// Possible values include:
-    /// 1. enzyme
-    /// 2. substrate
-    /// 3. both
+    /// 1. enzyme: Look for only enzymes
+    /// 2. substrate: Look for only substrates
+    /// 3. both: Look for both enzymes and substrates (default)
+    /// 4. either: Look for either enzymes or substrates or both
     #[clap(short, long, value_parser, value_name = "ROLE")]
     pub role: Role,
 

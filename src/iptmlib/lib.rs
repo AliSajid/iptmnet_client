@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 pub mod models;
-// use models::Organism;
-use models::Protein;
+#[allow(unused_imports)]
+use models::{Organism, Protein};
 // use std::collections::HashMap;
 
 pub enum IPTMResultError {
