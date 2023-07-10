@@ -18,7 +18,7 @@ use std::fmt::{Display, Formatter, Result};
 
 use serde_aux::prelude::*;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// # The Organism Struct
 ///
@@ -34,7 +34,7 @@ use serde::Deserialize;
 /// use iptmlib::models::organism::Organism;
 /// let organism_fun = Organism::new("Homo sapiens", "9606", "Human");
 /// ```
-#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize, Serialize)]
 pub struct Organism {
     /// The Species of the organism.
     ///

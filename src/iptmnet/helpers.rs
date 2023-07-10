@@ -66,7 +66,9 @@ impl fmt::Display for PtmType {
 pub enum Role {
     Enzyme,
     Substrate,
+    #[serde(rename = "Enzyme or Substrate")]
     Either,
+    #[serde(rename = "Enzyme and Substrate")]
     Both,
 }
 
@@ -172,6 +174,20 @@ mod tests {
     fn test_role_display() {
         assert_eq!(Role::Both.to_string(), "Enzyme and Substrate");
         assert_eq!(Role::Either.to_string(), "Enzyme or Substrate");
+    }
+
+    #[test]
+    fn test_role_serialize() {
+        let role = Role::Both;
+        let serialized = serde_json::to_string(&role).unwrap();
+        assert_eq!(serialized, "\"Enzyme and Substrate\"");
+    }
+
+    #[test]
+    fn test_role_deserialize() {
+        let role_str = "\"Enzyme and Substrate\"";
+        let deserialized: Role = serde_json::from_str(role_str).unwrap();
+        assert_eq!(deserialized, Role::Both);
     }
 
     #[test]
