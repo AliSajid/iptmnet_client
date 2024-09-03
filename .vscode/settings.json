@@ -2,8 +2,10 @@
     "cSpell.words": [
         "Acetylation",
         "Glycosylation",
+        "IPTM",
         "iptmid",
         "iptmlib",
+        "iptmnet",
         "isoforms",
         "long",
         "Methylation",
@@ -17,6 +19,7 @@
         "serde",
         "Sumoylation",
         "Ubiquitination",
+        "Uniprot",
         "wit"
     ]
 }
