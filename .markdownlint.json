@@ -3,13 +3,14 @@
         "style": "atx"
     },
     "MD007": {
-        "indent": 4
+        "indent": 2
     },
     "MD013": false,
     "MD024": false,
     "MD033": false,
     "MD041": false,
     "default": true,
+    "link-fragments": false,
     "no-hard-tabs": true,
     "whitespace": false
 }
