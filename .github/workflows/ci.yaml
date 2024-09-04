@@ -56,7 +56,7 @@ jobs:
                     - stable
                     - beta
                     - nightly
-                    - 1.75 # MSRV
+                    - 1.74.1 # MSRV
                 os:
                     - windows
                     - ubuntu
