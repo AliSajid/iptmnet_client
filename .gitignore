@@ -87,3 +87,7 @@ Cargo.lock
 
 # Explicitly allow the scripts directory
 !scripts/
+
+# Ignore all the dotenv Files
+.env
+.env.*
