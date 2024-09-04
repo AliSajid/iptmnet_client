@@ -16,7 +16,10 @@
 
 pub mod models;
 #[allow(unused_imports)]
-use models::{Organism, Protein};
+use models::{
+    Organism,
+    Protein,
+};
 // use std::collections::HashMap;
 
 pub enum IPTMResultError {
@@ -28,6 +31,6 @@ pub enum IPTMResult {
     Error(IPTMResultError),
     ProteinResults {
         num_results: usize,
-        results: Vec<Protein>,
+        results:     Vec<Protein>,
     },
 }

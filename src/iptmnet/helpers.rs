@@ -14,9 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use clap::ValueEnum;
-use serde::{Deserialize, Serialize};
 use std::fmt;
+
+use clap::ValueEnum;
+use serde::{
+    Deserialize,
+    Serialize,
+};
 
 #[allow(clippy::upper_case_acronyms)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum, Serialize, Deserialize)]
@@ -85,10 +89,10 @@ impl fmt::Display for Role {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct SearchParameters {
     search_term: String,
-    term_type: ItemType,
-    role: Role,
-    ptm_type: Option<PtmType>,
-    organism: Option<String>,
+    term_type:   ItemType,
+    role:        Role,
+    ptm_type:    Option<PtmType>,
+    organism:    Option<String>,
 }
 
 impl SearchParameters {
@@ -113,10 +117,10 @@ impl Default for SearchParameters {
     fn default() -> Self {
         Self {
             search_term: String::new(),
-            term_type: ItemType::All,
-            role: Role::Both,
-            ptm_type: None,
-            organism: None,
+            term_type:   ItemType::All,
+            role:        Role::Both,
+            ptm_type:    None,
+            organism:    None,
         }
     }
 }

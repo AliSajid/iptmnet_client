@@ -14,19 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::helpers::PtmType;
-
-use crate::helpers::ItemType;
-use crate::helpers::Role;
 use clap::Parser;
+
+use crate::helpers::{
+    ItemType,
+    PtmType,
+    Role,
+};
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
     /// Search string
     ///
-    /// This argument specifies the specific string to search for in the IPTMNet database.
-    /// You can specify gene or protein names, pubmed IDs or UniProt protein ID.
+    /// This argument specifies the specific string to search for in the IPTMNet
+    /// database. You can specify gene or protein names, pubmed IDs or
+    /// UniProt protein ID.
     #[clap(short, long, value_parser, value_name = "QUERY")]
     pub search: String,
 
@@ -51,8 +54,8 @@ pub struct Cli {
 
     /// Limit search to specific types of Post-translational Modifications (PTM)
     ///
-    /// This argument allows you to specify which type of PTM you are looking for.
-    /// The default is to include all.
+    /// This argument allows you to specify which type of PTM you are looking
+    /// for. The default is to include all.
     ///
     /// Possible values include:
     /// 1. acetylation
@@ -70,9 +73,9 @@ pub struct Cli {
 
     /// The role for the search term
     ///
-    /// This argument allows you subset the search results based on the role it plays.
-    /// A role can be as Enzyme, Substrate, or Enzyme or Substrate both
-    /// The default is to include use both.
+    /// This argument allows you subset the search results based on the role it
+    /// plays. A role can be as Enzyme, Substrate, or Enzyme or Substrate
+    /// both The default is to include use both.
     ///
     /// Possible values include:
     /// 1. enzyme: Look for only enzymes
@@ -84,11 +87,10 @@ pub struct Cli {
 
     /// The organism to restrict the search to
     ///
-    /// This argument allows you to subset the search results based on the organism
-    /// of interest. This argument accepts common names of the organisms.
-    /// The default is empty, which includes all organisms in the database.
-    ///
-    ///
+    /// This argument allows you to subset the search results based on the
+    /// organism of interest. This argument accepts common names of the
+    /// organisms. The default is empty, which includes all organisms in the
+    /// database.
     #[clap(long, value_parser, value_name = "ORGANISM")]
     pub organism: Option<String>,
 }
