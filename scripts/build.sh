@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# SPDX-FileCopyrightText: 2024 Ali Sajid Imami
+
+# SPDX-FileCopyrightText: 2022 - 2024 Ali Sajid Imami
 #
-# SPDX-License-Identifier: Apache-2.0
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 set -euo pipefail
 set -x
@@ -21,7 +21,6 @@ for filename in $(ls artifacts); do
     cp -v "artifacts/$filename/$filename" "dist/$filename"
   fi
 done
-
 
 # Create the checksums
 shasum -a 256 dist/* | sed 's/dist\///' | tee dist/SHA256SUMS.txt

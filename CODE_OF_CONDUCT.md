@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
