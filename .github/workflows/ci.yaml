@@ -1,287 +1,170 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
+---
 name: Continuous integration
-
 on:
-  schedule:
-    - cron:  '30 5,17 * * *'
-  push:
-    branches:
-      - "*"
-      - '!main'
-  pull_request:
-    branches:
-      - "main"
-      - "alpha"
-      - "beta"
-  workflow_dispatch:
-
-
+    push:
+    pull_request:
+        branches:
+            - main
+        types:
+            - closed
+    workflow_dispatch:
 concurrency:
-  group: CI
-
+    group: ${{github.event.ref}}
+    cancel-in-progress: true
 env:
-  GIST_KEY: "ffc7577cb1032996417a2c97f8715009" # pragma: allowlist secret
-  RUST_BACKTRACE: 1
-  MINIMUM_WAIT: 3
-  MAXIMUM_WAIT: 10
-
+    GIST_KEY: ffc7577cb1032996417a2c97f8715009 # pragma: allowlist secret
+    RUST_BACKTRACE: 1
+    MINIMUM_WAIT: 3
+    MAXIMUM_WAIT: 10
 jobs:
-  windows-ci:
-    runs-on: ${{ matrix.os }}-latest
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
-          - 1.64.0  # MSRV
-        os:
-          - windows
-        include:
-          - os: windows
-            logo: windows
-          - rust: 1.64.0
-            label: msrv
-          - rust: nightly
-            label: nightly
-          - rust: beta
-            label: beta
-          - rust: stable
-            label: stable
-
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-        with:
-          fetch-depth: 0
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.rust }}
-          components: rustfmt, clippy
-
-      - name: Cache dependencies
-        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-
-      - name: Cargo Build
-        run: cargo build --verbose
-
-      - name: Cargo Test
-        run: cargo test
-
-      - name: Cargo Format
-        run: cargo fmt --all -- --check
-
-      - name: Cargo Lint
-        run: cargo clippy -- -D warnings
-
-      - name: Random Wait
-        uses: AliSajid/random-wait-action@v1.1.0
-        with:
-          minimum: ${{ env.MINIMUM_WAIT }}
-          maximum: ${{ env.MAXIMUM_WAIT }}
-
-      - name: Create Awesome Badge - Success
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: success()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          label: Build
-          namedLogo: ${{matrix.logo}}
-          message: Succeeded
-          color: green
-
-      - name: Create Awesome Badge - Failure
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: failure()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          namedLogo: ${{matrix.logo}}
-          label: Build
-          message: Failed
-          isError: true
-
-      - name: Set Result
-        if: always()
-        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
-
-  ubuntu-ci:
-    runs-on: ${{ matrix.os }}-latest
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
-          - 1.64.0  # MSRV
-        os:
-          - ubuntu
-        include:
-          - os: ubuntu
-            logo: ubuntu
-          - rust: 1.64.0
-            label: msrv
-          - rust: nightly
-            label: nightly
-          - rust: beta
-            label: beta
-          - rust: stable
-            label: stable
-
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.rust }}
-          components: rustfmt, clippy
-
-      - name: Cache dependencies
-        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-
-      - name: Cargo Build
-        run: cargo build --verbose
-
-      - name: Cargo Test
-        run: cargo test
-
-      - name: Cargo Format
-        run: cargo fmt --all -- --check
-
-      - name: Cargo Lint
-        run: cargo clippy -- -D warnings
-
-      - name: Random Wait
-        uses: AliSajid/random-wait-action@v1.1.0
-        with:
-          minimum: ${{ env.MINIMUM_WAIT }}
-          maximum: ${{ env.MAXIMUM_WAIT }}
-
-      - name: Create Awesome Badge - Success
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: success()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          label: Build
-          namedLogo: ${{matrix.logo}}
-          message: Succeeded
-          color: green
-
-      - name: Create Awesome Badge - Failure
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: failure()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          namedLogo: ${{matrix.logo}}
-          label: Build
-          message: Failed
-          isError: true
-
-      - name: Set Result
-        if: always()
-        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
-
-  macos-ci:
-    runs-on: ${{ matrix.os }}-latest
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
-          - 1.64.0  # MSRV
-        os:
-          - macos
-        include:
-          - os: macos
-            logo: apple
-          - rust: 1.64.0
-            label: msrv
-          - rust: nightly
-            label: nightly
-          - rust: beta
-            label: beta
-          - rust: stable
-            label: stable
-
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.rust }}
-          components: rustfmt, clippy
-
-      - name: Cache dependencies
-        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-
-      - name: Cargo Build
-        run: cargo build --verbose
-
-      - name: Cargo Test
-        run: cargo test
-
-      - name: Cargo Format
-        run: cargo fmt --all -- --check
-
-      - name: Cargo Lint
-        run: cargo clippy -- -D warnings
-
-      - name: Random Wait
-        uses: AliSajid/random-wait-action@v1.1.0
-        with:
-          minimum: ${{ env.MINIMUM_WAIT }}
-          maximum: ${{ env.MAXIMUM_WAIT }}
-
-      - name: Create Awesome Badge - Success
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: success()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          label: Build
-          namedLogo: ${{matrix.logo}}
-          message: Succeeded
-          color: green
-
-      - name: Create Awesome Badge - Failure
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: failure()
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: ${{ env.GIST_KEY }}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          namedLogo: ${{matrix.logo}}
-          label: Build
-          message: Failed
-          isError: true
-
-      - name: Set Result
-        if: always()
-        run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
-
-  semantic-release:
-    needs: [macos-ci, windows-ci, ubuntu-ci]
-    uses: ./.github/workflows/release.yaml
-    secrets: inherit # pragma: allowlist secret
-
-  upload-release-artifacts:
-    needs: [semantic-release]
-    if: needs.semantic-release.outputs.new_release_published == 'true'
-    uses: ./.github/workflows/release_upload.yaml
-    secrets: inherit # pragma: allowlist secret
-    with:
-      new_version: ${{ needs.semantic-release.outputs.new_version }}
-      new_release_published: ${{ needs.semantic-release.outputs.new_release_published }}
-      new_release_notes: ${{ needs.semantic-release.outputs.new_release_notes }}
-      new_release_channel: ${{ needs.semantic-release.outputs.new_release_channel }}
+    check_changed_dirs:
+      runs-on: ubuntu-latest
+      outputs:
+        source_changed: ${{steps.changed_dirs.outputs.source}}
+        book_changed: ${{steps.changed_dirs.outputs.book}}
+      steps:
+        - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        - name: Check changed directories
+          id: changed_dirs
+          uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+          with:
+            base: ${{ github.ref }}
+            filters: |
+              source:
+                - "src/**/*"
+                - "tests/**/*"
+                - "examples/**/*"
+                - "Cargo.toml"
+                - "Cargo.lock"
+              book:
+                - "guide/src/*.md"
+                - "guide/book.toml"
+    ci:
+        runs-on: ${{matrix.os}}-latest
+        needs: [check_changed_dirs]
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
+        outputs:
+            result: ${{steps.result.outputs.result}}
+        strategy:
+            fail-fast: false
+            matrix:
+                rust:
+                    - stable
+                    - beta
+                    - nightly
+                    - 1.75 # MSRV
+                os:
+                    - windows
+                    - ubuntu
+                    - macos
+                include:
+                  - os: windows
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Windows</title><path d=\"M0,0H11.377V11.372H0ZM12.623,0H24V11.372H12.623ZM0,12.623H11.377V24H0Zm12.623,0H24V24H12.623\"/></svg>"
+                  - os: ubuntu
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Ubuntu</title><path d=\"M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z\"/></svg>"
+                  - os: macos
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Apple</title><path d=\"M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701\"/></svg>"
+                  - rust: 1.75 # MSRV
+                    label: msrv
+                  - rust: stable
+                    label: stable
+                  - rust: beta
+                    label: beta
+                  - rust: nightly
+                    label: nightly
+        steps:
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+            - name: Install Rust
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: dtolnay/rust-toolchain@master
+              with:
+                toolchain: ${{matrix.rust}}
+                components: rustfmt, clippy
+            - name: Install nightly Rust
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: dtolnay/rust-toolchain@nightly
+              with:
+                toolchain: nightly
+                components: rustfmt, clippy
+            - name: Cache dependencies
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
+            - name: Cargo Build
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              run: cargo build --verbose
+            - name: Cargo Test
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              run: cargo test
+            - name: Cargo Format
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              run: cargo +nightly fmt --all -- --check
+            - name: Cargo Lint
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              run: cargo clippy -- -D warnings
+            - name: Wait before badge creation
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: AliSajid/random-wait-action@f9109712daa7a8103f7be16b68634b9d376587a7 # v2.4.1
+              with:
+                minimum: ${{env.MINIMUM_WAIT}}
+                maximum: ${{env.MAXIMUM_WAIT}}
+            - name: Create Awesome Badge - Success
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+              if: success()
+              with:
+                auth: ${{secrets.GIST_SECRET}}
+                gistID: ${{env.GIST_KEY}}
+                filename: ${{matrix.os}}-${{matrix.label}}.json
+                label: Build
+                labelColor: lightgrey
+                logoSvg: ${{matrix.logoSvg}}
+                message: Succeeded
+                color: darkgreen
+            - name: Create Awesome Badge - Failure
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+              if: failure()
+              with:
+                auth: ${{secrets.GIST_SECRET}}
+                gistID: ${{env.GIST_KEY}}
+                filename: ${{matrix.os}}-${{matrix.label}}.json
+                logoSvg: ${{matrix.logoSvg}}
+                label: Build
+                labelColor: lightgrey
+                message: Failed
+                isError: true
+            - name: Set Result
+              if: always()
+              id: result
+              run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
+    generate_code_coverage:
+        uses: ./.github/workflows/code_coverage.yaml
+        needs: [ci, check_changed_dirs]
+        if: ${{needs.check_changed_dirs.outputs.source_changed == 'true'}}
+        secrets: inherit # pragma: allowlist secret
+    generate_mdbook:
+        uses: ./.github/workflows/deploy_mdbook.yaml
+        needs: [check_changed_dirs]
+        if: ${{needs.check_changed_dirs.outputs.book_changed == 'true'}}
+        secrets: inherit # pragma: allowlist secret
+    get-next-version:
+        uses: ./.github/workflows/get_next_version.yaml
+        needs: [ci, check_changed_dirs]
+        if: ${{needs.ci.outputs.result == 'success'}}
+        secrets: inherit # pragma: allowlist secret
+    semantic-release:
+        needs: [ci, get-next-version]
+        if: ${{needs.get-next-version.outputs.new-release-published == 'true'}}
+        uses: ./.github/workflows/release.yaml
+        secrets: inherit # pragma: allowlist secret
+    build-container:
+      permissions:
+        id-token: write
+        packages: write
+      needs: [ci]
+      uses: ./.github/workflows/build_container.yaml
+      secrets: inherit # pragma: allowlist secret

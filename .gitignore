@@ -84,3 +84,6 @@ Cargo.lock
 
 # Cargo watch trigger file (https://crates.io/crates/cargo-watch)
 .trigger*
+
+# Explicitly allow the scripts directory
+!scripts/
