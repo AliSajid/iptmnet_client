@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
+---
+name: Security Audit
+on:
+    schedule:
+        - cron: 0 0 1,15 * *
+    push:
+        branches:
+            - "*"
+        paths:
+            - '**/Cargo.toml'
+            - '**/Cargo.lock'
+    workflow_dispatch:
+jobs:
+    security_audit:
+        if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+            - name: Install Rust
+              uses: dtolnay/rust-toolchain@stable
+            - name: Install cargo-audit
+              uses: taiki-e/install-action@37461a1de4134bec919a737ee9ba018e72011b7c # v2.42.4
+              with:
+                tool: cargo-audit
+            - name: Security Audit
+              run: cargo audit
