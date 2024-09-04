@@ -14,13 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use crate::models::Protein;
-use serde::{Deserialize, Serialize};
 use std::fmt::Display;
+
+use serde::{
+    Deserialize,
+    Serialize,
+};
+
+use crate::models::Protein;
 
 #[derive(Default, Clone, Eq, PartialEq, Debug, Deserialize, Serialize)]
 pub struct ProteinVec {
-    proteins: Vec<Protein>,
+    proteins:    Vec<Protein>,
     num_results: usize,
 }
 

@@ -16,7 +16,10 @@
 
 use std::fmt::Display;
 
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 
 use crate::models::organism::Organism;
 
@@ -25,53 +28,54 @@ type Synonym = String;
 /// # The Protein Struct
 ///
 /// This struct encodes the summary information about a protein.
-/// This contains the same information as the Protein construct returned from the `/search` endpoint
-/// from the iPTMNet API.
+/// This contains the same information as the Protein construct returned from
+/// the `/search` endpoint from the iPTMNet API.
 ///
 /// ## Examples
 ///
 /// ### Using the constructor
 ///
 /// ```
-/// use iptmlib::models::organism::Organism;
-/// use iptmlib::models::protein::Protein;
+/// use iptmlib::models::{
+///     organism::Organism,
+///     protein::Protein,
+/// };
 ///
 /// let organism = Organism::new("Homo sapiens", "9606", "Human");
 ///
-///  let prot = Protein::new(
-///  String::from("PAK1IP1"),
-///  0,
-///  organism,
-///  true,
-///  ["PIP1", "WDR84"].map(String::from).to_vec(),
-///  0,
-///  18,
-///  false,
-///  false,
-///  String::from("p21-activated protein kinase-interacting protein 1;"),
-///  0,
-///  String::from("Q9NWT1"),
-///  0,
-///  String::from("PK1IP_HUMAN"),
-///  );
-///
+/// let prot = Protein::new(
+///     String::from("PAK1IP1"),
+///     0,
+///     organism,
+///     true,
+///     ["PIP1", "WDR84"].map(String::from).to_vec(),
+///     0,
+///     18,
+///     false,
+///     false,
+///     String::from("p21-activated protein kinase-interacting protein 1;"),
+///     0,
+///     String::from("Q9NWT1"),
+///     0,
+///     String::from("PK1IP_HUMAN"),
+/// );
 /// ```
 #[derive(Clone, Eq, PartialEq, Debug, Deserialize, Serialize)]
 pub struct Protein {
-    enzyme_num: u32,
-    enzyme_role: bool,
-    gene_name: String,
-    iptm_id: String,
-    isoforms: u32,
-    organism: Organism,
-    protein_name: String,
-    ptm_dependent_ppi_num: u32,
+    enzyme_num:             u32,
+    enzyme_role:            bool,
+    gene_name:              String,
+    iptm_id:                String,
+    isoforms:               u32,
+    organism:               Organism,
+    protein_name:           String,
+    ptm_dependent_ppi_num:  u32,
     ptm_dependent_ppi_role: bool,
-    sites: u32,
-    substrate_num: u32,
-    substrate_role: bool,
-    synonyms: Vec<Synonym>,
-    uniprot_ac: String,
+    sites:                  u32,
+    substrate_num:          u32,
+    substrate_role:         bool,
+    synonyms:               Vec<Synonym>,
+    uniprot_ac:             String,
 }
 
 impl Display for Protein {
@@ -123,6 +127,7 @@ impl Protein {
     pub fn has_substrate_role(&self) -> bool {
         self.substrate_role
     }
+
     pub fn has_ptm_dependent_ppi_role(&self) -> bool {
         self.ptm_dependent_ppi_role
     }

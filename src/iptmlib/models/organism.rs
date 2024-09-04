@@ -14,23 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use std::fmt::{Display, Formatter, Result};
+use std::fmt::{
+    Display,
+    Formatter,
+    Result,
+};
 
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use serde_aux::prelude::*;
-
-use serde::{Deserialize, Serialize};
 
 /// # The Organism Struct
 ///
-/// The `Organism` Struct encodes the representation of a given organism in the iptmnet
-/// database.
+/// The `Organism` Struct encodes the representation of a given organism in the
+/// iptmnet database.
 ///
 /// It contains the same information as the one available in the iPTMNet API
 ///
 /// ## Example:
 ///
 /// ### Using the constructor method:
-///```
+/// ```
 /// use iptmlib::models::organism::Organism;
 /// let organism_fun = Organism::new("Homo sapiens", "9606", "Human");
 /// ```
@@ -39,7 +45,7 @@ pub struct Organism {
     /// The Species of the organism.
     ///
     /// Example: "Homo sapiens"
-    species: String,
+    species:    String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
     /// The Taxon Code for the organism.
     ///
@@ -71,8 +77,8 @@ impl Organism {
     pub fn new(species: &str, taxon_code: &str, common_name: &str) -> Self {
         let taxon_code_parsed: u32 = taxon_code.parse().unwrap();
         Organism {
-            species: species.to_string(),
-            taxon_code: taxon_code_parsed,
+            species:     species.to_string(),
+            taxon_code:  taxon_code_parsed,
             common_name: common_name.to_string(),
         }
     }
