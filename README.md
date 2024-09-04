@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2022 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 
 # IPTMNet API Client
 

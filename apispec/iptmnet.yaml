@@ -1,4 +1,7 @@
 ---
+# SPDX-FileCopyrightText: 2022 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 openapi: 3.0.3
 info:
     description: "This is an API for iPTMNet providing information about post-translational modifications (PTMs) combined from multiple sources and tools."
