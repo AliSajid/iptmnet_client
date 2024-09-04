@@ -129,3 +129,7 @@ repos:
       rev: v8.18.4
       hooks:
         - id: gitleaks
+    - repo: https://github.com/renovatebot/pre-commit-hooks
+      rev: 38.66.1
+      hooks:
+        - id: renovate-config-validator
