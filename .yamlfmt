@@ -6,9 +6,9 @@
 line_ending: "lf"
 doublestar: true
 include:
-    - .github/**/*.yml
+    - .github/**/*.yaml
     - .pre-commit-config.yaml
-    - .releaserc.yml
+    - .releaserc.yaml
     - .yamlfmt
 formatter:
     type: basic
