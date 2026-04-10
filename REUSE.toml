@@ -11,7 +11,7 @@ path = [
     ".secrets.baseline",
     ".markdownlintignore",
     ".vscode/*",
-    "guide/.gitignore"
+    "guide/.gitignore",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2022 - 2024 Ali Sajid Imami"
@@ -28,13 +28,13 @@ path = [
     "licenses_report.md",
     "licenses_report.json",
     "renovate.json",
-    ".markdownlint.json"
+    ".markdownlint.json",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2022 - 2024 Ali Sajid Imami"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "CHANGELOG.md"
+path = ["CHANGELOG.md", "CLAUDE.md"]
 SPDX-FileCopyrightText = "2022 - 2024 Ali Sajid Imami"
 SPDX-License-Identifier = "GPL-3.0-or-later"

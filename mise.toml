@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2023 - Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[tools]
+rust = "1.59.0"
+python = "3.13"
+jq = "1.8"
+"cargo:bacon" = "3.22.0"
+"cargo:cargo-about" = "0.8.4"
+"cargo:cargo-audit" = "0.22.1"
+hk = "1.38.0"
+pkl = "0.31.0"
+"cargo:cargo-toml-lint" = "0.1.1"
+cocogitto = "7.0.0"
+gitleaks = "8.30.0"
+mdbook = "0.5.2"
+"pipx:reuse" = "6.2.0"
+"pipx:texthooks" = "0.7.1"
+taplo = "0.10.0"
+vale = "3.13.1"
+yamllint = "1.38.0"
+"cargo:cargo-edit" = "0.13.8"
+"aqua:nextest-rs/nextest/cargo-nextest" = "0.9.129"
+"aqua:taiki-e/cargo-llvm-cov" = "0.8.4"
+
+[env]
+# Add Anthropic Variables
+ANTHROPIC_AUTH_TOKEN = "ollama"
+ANTHROPIC_API_KEY = ""
+ANTHROPIC_BASE_URL = "http://localhost:11434"
