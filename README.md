@@ -49,6 +49,6 @@ This project is licensed under the GNU General Public License v3.0.
 
 ## Related
 
-- The IPTMNet website can be found [here](https://research.bioinformatics.udel.edu/iptmnet/).
-- The IPTMNet API Specification can be found [here](https://research.bioinformatics.udel.edu/iptmnet/api/doc/).
-- The IPTMNet Paper can be found [here](https://academic.oup.com/nar/article/46/D1/D542/4626766).
+- [The IPTMNet website](https://research.bioinformatics.udel.edu/iptmnet/).
+- [The IPTMNet API Specification](https://research.bioinformatics.udel.edu/iptmnet/api/doc/).
+- [The IPTMNet Paper](https://academic.oup.com/nar/article/46/D1/D542/4626766).
