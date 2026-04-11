@@ -10,8 +10,8 @@
 #    It copies the binary from the builder image and sets it as the entry point of the container
 
 # Use the official Rust image as the builder image
-# Use the 1.74.1 version of the Rust image since it's the MSRV (Minimum Supported Rust Version) for the iptmnet_client project
-FROM rust:1.74.1 AS builder
+# Use the 1.86.0 version of the Rust image since it's the MSRV (Minimum Supported Rust Version) for the iptmnet_client project
+FROM rust:1.86.0 AS builder
 
 # Set the working directory in the builder image to /usr/src
 WORKDIR /usr/src

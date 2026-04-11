@@ -6,8 +6,8 @@
 
 # Stable options as of v1.6.0
 
-## Use the 2021 edition of Rust
-edition = "2021"
+## Use the 2024 edition of Rust
+edition = "2024"
 
 ## Use the unix style line endings
 newline_style = "Auto"

@@ -1,1 +1,2 @@
 .secrets.baseline:generic-api-key:125
+.github/workflows/ci.yaml:generic-api-key:19

@@ -120,7 +120,7 @@ cargo nextest run --status-level pass
 The CI workflow (`.github/workflows/ci.yaml`) runs on:
 
 - **Platforms**: Ubuntu, macOS, Windows (latest)
-- **Rust toolchains**: stable, beta, nightly, MSRV (1.74.1)
+- **Rust toolchains**: stable, beta, nightly, MSRV (1.86.0)
 
 On push or PR merge, it:
 
