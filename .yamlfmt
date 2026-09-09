@@ -1,14 +1,10 @@
-# SPDX-FileCopyrightText: 2022 - 2024 Ali Sajid Imami
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 ---
 line_ending: "lf"
 doublestar: true
 include:
-    - .github/**/*.yml
+    - .github/**/*.yaml
     - .pre-commit-config.yaml
-    - .releaserc.yml
+    - .releaserc.yaml
     - .yamlfmt
 formatter:
     type: basic
